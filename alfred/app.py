@@ -35,6 +35,8 @@ def init(argv):
     --dry-run        Dry run mode (don't do anything)
     """
     # get token so this bot can use Telegram Bot API
+    # TODO: what if this environment variable is not set?
+    # TODO: what if a config file could actually handle this?
     config.token = os.getenv('TG_TOKEN')
 
     args = docopt(init.__doc__, argv=argv[1:], version=version)
@@ -83,6 +85,7 @@ def start(
 
 
     # TODO: we'll see about this
+    # TODO: config should come from a file
     # Main settings for this module
     config.queue_reboot   = queue_reboot
     config.queue_poweroff = queue_poweroff
