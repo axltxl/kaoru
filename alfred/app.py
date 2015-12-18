@@ -97,7 +97,11 @@ def start(dry_run=False):
         token = os.getenv('TG_TOKEN')
         if token is None:
             raise SystemError('A token is mandatory for this thing to work!')
+        else:
+            log.msg_debug('got token from environment variable')
         config.set('token', token)
+    else:
+        log.msg_debug('got token from configuration file')
 
     # ... and as well a few other things that are necessary
     global _tg_updater, _tg_dispatcher
