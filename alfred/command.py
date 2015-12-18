@@ -109,6 +109,7 @@ def _unknown(bot, update):
         "I am sorry {}. I'm afraid I cannot do that ...".format(chatter_name)
     )
 
+
 def register_commands(updater, dispatcher):
     """register each and every command this bot is going to process"""
 
@@ -122,9 +123,11 @@ def register_commands(updater, dispatcher):
     ]
 
     # register every command there is
-    for command, fun in commands:
-        dispatcher.addTelegramCommandHandler(command, fun)
-        log.msg("/{}: command registered".format(command))
+    for command, handler in commands:
+        dispatcher.addTelegramCommandHandler(command, handler)
+        log.msg_debug("/{}: command registered".format(command))
 
     # and the default one as well ...
+    log.msg_debug('Registering default handler')
     dispatcher.addUnknownTelegramCommandHandler(_unknown)
+

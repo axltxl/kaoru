@@ -63,7 +63,6 @@ def init(argv):
     log.msg("Reading configuration file at: {}".format(config_file))
     config.init(config_file=config_file)
 
-
     return args
 
 def handle_except(e):
@@ -82,6 +81,9 @@ def handle_except(e):
                 "For more details, review the logs.")
     return 1
 
+def _handle_error(bot, update, error):
+    raise error
+
 ##################
 # The main "thing"
 ##################
@@ -90,29 +92,51 @@ def start(dry_run=False):
     # whether to set dry run mode
     config.set('dry_run', dry_run)
 
+    #########################################################
     # Telegram Bot API token:
     # It can be obtained by either via the configuration file
     # or the environment variable TG_TOKEN
+    #########################################################
     if config.get('token') is None:
         token = os.getenv('TG_TOKEN')
         if token is None:
-            raise SystemError('A token is mandatory for this thing to work!')
+            raise SystemError('A Telegram Bot API token is mandatory for this thing to work!')
         else:
-            log.msg_debug('got token from environment variable')
+            log.msg_debug('got Telegram Bot API token from environment variable')
         config.set('token', token)
     else:
-        log.msg_debug('got token from configuration file')
+        log.msg_debug('got Telegram Bot API token from configuration file')
 
     # ... and as well a few other things that are necessary
     global _tg_updater, _tg_dispatcher
+
+    #########################
+    # create Telegram updater
+    #########################
     _tg_updater = Updater(token=config.get('token'))
+
+    # ... and get its dispatcher, which it's manipulated
+    # on further code
     _tg_dispatcher = _tg_updater.dispatcher
+
+    ###############
+    # error handler
+    # TODO: causing errors
+    ###############
+    # log.msg_debug('Registering error handler')
+    # _tg_dispatcher.addErrorHandler(_handle_error)
 
     # Register callbacks for each supported command in this bot
     command.register_commands(_tg_updater, _tg_dispatcher)
 
-    # Start listening for actual requests
-    _tg_updater.start_polling()
+    ####################################
+    # Start listening for actual updates
+    ####################################
+    _tg_updater.start_polling(poll_interval=0.5, timeout=5)
+
+    log.msg("Listening for requests ...")
+    while True:
+        time.sleep(1)
 
 def _handle_signal(signum, frame):
     """
@@ -125,6 +149,12 @@ def shutdown():
     """
     Cleanup
     """
+
+    # Make sure the updater has stopped
+    if _tg_updater is not None:
+        log.msg_debug('Stopping updater ..')
+        _tg_updater.stop()
+
     log.msg("Exiting ...")
 
 def _splash():
