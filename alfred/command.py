@@ -134,7 +134,6 @@ def _unknown(bot, update):
         "I am sorry {}. I'm afraid I cannot do that ...".format(chatter_name)
     )
 
-@bot_command
 def register_commands(updater, dispatcher):
     """register each and every command this bot is going to process"""
 
