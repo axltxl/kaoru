@@ -26,18 +26,18 @@ from . import log
 from . import command
 from . import config
 
+# telegram objects to be used
+_tg_dispatcher = None
+_tg_updater = None
 
 def init(argv):
-    """Usage: alfred [--log-level LVL] [--log-file FILE] [--dry-run]
+    """Usage: alfred [--log-level LVL] [--log-file FILE] [--dry-run] [--config FILE]
 
     --log-level LVL  Verbosity level on output [default: 1]
     --log-file FILE  Log file [default: alfred.log]
+    --config FILE    Configuration file to use
     --dry-run        Dry run mode (don't do anything)
     """
-    # get token so this bot can use Telegram Bot API
-    # TODO: what if this environment variable is not set?
-    # TODO: what if a config file could actually handle this?
-    config.token = os.getenv('TG_TOKEN')
 
     args = docopt(init.__doc__, argv=argv[1:], version=version)
 
@@ -53,6 +53,16 @@ def init(argv):
 
     # show splash
     _splash()
+
+    # initialize configuration file
+    config_file = args['--config']
+    if config_file is None:
+        config_file = "{}/.config/{}/{}.conf".format(
+            os.getenv('HOME'), pkg_name, pkg_name
+        )
+    log.msg("Reading configuration file at: {}".format(config_file))
+    config.init(config_file=config_file)
+
 
     return args
 
@@ -75,34 +85,30 @@ def handle_except(e):
 ##################
 # The main "thing"
 ##################
-def start(
-        dry_run=False,
-        queue_reboot=False,
-        queue_poweroff=False,
-        time_poweroff=1,
-        time_reboot=1
-        ):
+def start(dry_run=False):
 
+    # whether to set dry run mode
+    config.set('dry_run', dry_run)
 
-    # TODO: we'll see about this
-    # TODO: config should come from a file
-    # Main settings for this module
-    config.queue_reboot   = queue_reboot
-    config.queue_poweroff = queue_poweroff
-    config.time_reboot = time_reboot
-    config.time_poweroff = time_poweroff
-    config.dry_run = dry_run
-
+    # Telegram Bot API token:
+    # It can be obtained by either via the configuration file
+    # or the environment variable TG_TOKEN
+    if config.get('token') is None:
+        token = os.getenv('TG_TOKEN')
+        if token is None:
+            raise SystemError('A token is mandatory for this thing to work!')
+        config.set('token', token)
 
     # ... and as well a few other things that are necessary
-    updater = Updater(token=config.token)
-    dispatcher = updater.dispatcher
+    global _tg_updater, _tg_dispatcher
+    _tg_updater = Updater(token=config.get('token'))
+    _tg_dispatcher = _tg_updater.dispatcher
 
     # Register callbacks for each supported command in this bot
-    command.register_commands(updater, dispatcher)
+    command.register_commands(_tg_updater, _tg_dispatcher)
 
     # Start listening for actual requests
-    updater.start_polling()
+    _tg_updater.start_polling()
 
 def _handle_signal(signum, frame):
     """

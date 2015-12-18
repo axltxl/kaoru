@@ -28,6 +28,16 @@ def _hello(bot, update):
         "Affirmative, {}. I read you. ".format(chatter_name)
     )
 
+# /dryrun command
+def _dryrun(bot, update):
+    """toggle dry run mode"""
+    config.set('dry_run', not config.get('dry_run'))
+    if config.get('dry_run'):
+        status = "ON"
+    else:
+        status = "OFF"
+    utils.echo_msg(bot, update, "Dry run mode is {}".format(status))
+
 # /lock command:
 def _lock(bot, update):
     """
@@ -42,16 +52,16 @@ def _lock(bot, update):
 def _poweroff(bot, update):
     """turn off your machine(s)"""
 
-    if not config.queue_poweroff and not config.queue_reboot:
+    if not config.get('queue_poweroff') and not config.get('queue_reboot'):
         utils.echo_msg(
             bot, update,
             "Your machines are to be shutdown in about {} minute(s)".format(
-                config.time_poweroff
+                config.get('time_poweroff')
             )
         )
-        if not config.dry_run:
-            envoy.run('sudo shutdown -P +{}'.format(config.time_poweroff))
-        config.queue_poweroff = True
+        if not config.get('dry_run'):
+            envoy.run('sudo shutdown -P +{}'.format(config.get('time_poweroff')))
+        config.set('queue_poweroff', True)
     else:
         utils.echo_msg(
             bot, update,
@@ -63,26 +73,26 @@ def _poweroff(bot, update):
 def _cancel(bot, update):
     """Cancel any pending reboot/poweroffs"""
 
-    if not config.dry_run:
+    if not config.get('dry_run'):
         envoy.run("sudo shutdown -c")
-    config.queue_reboot = False
-    config.queue_poweroff = False
+    config.set('queue_reboot', False)
+    config.set('queue_poweroff', False)
     utils.echo_msg(bot, update, "Operations cancelled")
 
 # /reboot command:
 def _reboot(bot, update):
     """reboot your machine(s)"""
 
-    if not config.queue_poweroff and not config.queue_reboot:
+    if not config.get('queue_poweroff') and not config.get('queue_reboot'):
         utils.echo_msg(
             bot, update,
             "I'm going to be rebooted in about {} minute(s)".format(
-                config.time_reboot
+                config.get('time_reboot')
             )
         )
-        if not config.dry_run:
-            envoy.run('sudo shutdown -r +{}'.format(config.time_reboot))
-        config.queue_reboot = True
+        if not config.get('dry_run'):
+            envoy.run('sudo shutdown -r +{}'.format(config.get('time_reboot')))
+        config.set('queue_reboot', True)
     else:
         utils.echo_msg(
             bot, update,
@@ -108,6 +118,7 @@ def register_commands(updater, dispatcher):
         ('reboot', _reboot),
         ('poweroff', _poweroff),
         ('cancel', _cancel),
+        ('dryrun', _dryrun),
     ]
 
     # register every command there is

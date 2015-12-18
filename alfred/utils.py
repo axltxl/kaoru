@@ -25,7 +25,7 @@ def echo_msg(bot, update, msg):
 
     # reformat message so it includes this machine's host name
     hostname = socket.gethostname()
-    if not config.dry_run:
+    if not config.get('dry_run'):
         tag = "[{}]".format(hostname)
     else:
         tag = "[{}:dry-run]".format(hostname)
