@@ -17,8 +17,28 @@ from . import utils
 from . import log
 from . import config
 
+def bot_command(command_func):
+    """
+    A decorator whose purpose is to stack middleware
+    routines on top of its target function
+    """
+
+    # the actual middleware function
+    def _middleware(bot, update):
+        username = update.message.from_user.username
+        userid = update.message.from_user.id
+        command = update.message.text
+        log.msg_debug("[{}:{}] Received command: '{}'".format(
+                username, userid, command
+            )
+        )
+        command_func(bot, update)
+
+    # give the thing back!
+    return _middleware
 
 # /hello command
+@bot_command
 def _hello(bot, update):
     """a rather simple ping command"""
 
@@ -29,6 +49,7 @@ def _hello(bot, update):
     )
 
 # /dryrun command
+@bot_command
 def _dryrun(bot, update):
     """toggle dry run mode"""
     config.set('dry_run', not config.get('dry_run'))
@@ -39,6 +60,7 @@ def _dryrun(bot, update):
     utils.echo_msg(bot, update, "Dry run mode is {}".format(status))
 
 # /lock command:
+@bot_command
 def _lock(bot, update):
     """
     it basically runs screenlock script resulting
@@ -49,6 +71,7 @@ def _lock(bot, update):
     envoy.run('screenlock')
 
 # /poweroff command:
+@bot_command
 def _poweroff(bot, update):
     """turn off your machine(s)"""
 
@@ -70,6 +93,7 @@ def _poweroff(bot, update):
 
 
 # /cancel command:
+@bot_command
 def _cancel(bot, update):
     """Cancel any pending reboot/poweroffs"""
 
@@ -80,6 +104,7 @@ def _cancel(bot, update):
     utils.echo_msg(bot, update, "Operations cancelled")
 
 # /reboot command:
+@bot_command
 def _reboot(bot, update):
     """reboot your machine(s)"""
 
@@ -99,7 +124,7 @@ def _reboot(bot, update):
             "Your machines are already going to be shutdown/rebooted"
         )
 
-
+@bot_command
 def _unknown(bot, update):
     """default command handler"""
 
@@ -109,7 +134,7 @@ def _unknown(bot, update):
         "I am sorry {}. I'm afraid I cannot do that ...".format(chatter_name)
     )
 
-
+@bot_command
 def register_commands(updater, dispatcher):
     """register each and every command this bot is going to process"""
 
