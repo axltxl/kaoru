@@ -1,0 +1,4 @@
+clint == 0.5.1
+docopt == 0.6.2
+python-telegram-bot==3.1.0
+envoy==0.0.3
