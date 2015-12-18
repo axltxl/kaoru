@@ -10,10 +10,10 @@ import pip
 from pip.req import parse_requirements
 from setuptools import setup, find_packages
 import os
-from snaplayer import __version__ as version
-from snaplayer import __author__ as author
-from snaplayer import PKG_URL as pkg_url
-from snaplayer import __name__ as pkg_name
+from alfred import __version__ as version
+from alfred import __author__ as author
+from alfred import PKG_URL as pkg_url
+from alfred import __name__ as pkg_name
 
 
 # parse_requirements() returns generator of pip.req.InstallRequirement objects
