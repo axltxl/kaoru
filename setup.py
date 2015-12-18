@@ -39,7 +39,6 @@ setup(
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Environment :: Console	',
-        'Topic :: System :: Archiving :: Backup',
         'Natural Language :: English',
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
@@ -49,7 +48,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'snaplayer = snaplayer.__main__:main',
+            'alfred = alfred.__main__:main',
         ],
     },
     install_requires = reqs,
