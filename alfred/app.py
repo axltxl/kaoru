@@ -104,26 +104,8 @@ def init(argv):
     # show splash
     _splash()
 
-    # initialize configuration file
-    config_file = args['--config']
-    if config_file is None:
-        config_file = "{}/.config/{}/{}.conf".format(
-            os.getenv('HOME'), pkg_name, pkg_name
-        )
-    log.msg("Reading configuration file at: {}".format(config_file))
-    config.init(config_file=config_file)
-
-    # print final configuration
-    log.msg_debug("Configuration settings are the following:")
-    log.msg_debug("-----------------------------------------")
-    cfg_opts = config.options().copy()
-    # mangle token before showing it off
-    token = cfg_opts['token']
-    mangled_token = '*' * (len(token)//2)
-    mangled_token = "{}{}".format(mangled_token, token[len(token)//2+1:])
-    cfg_opts['token'] = mangled_token
-    log.msg_debug(cfg_opts)
-    log.msg_debug("-----------------------------------------")
+    # initialise configuration file
+    _config_init(args['--config'])
 
     # give back the list of arguments captured by docopt
     return args
