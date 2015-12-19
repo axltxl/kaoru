@@ -66,3 +66,4 @@ Session.vim
 *~
 
 *.conf
+!example.conf

@@ -10,10 +10,10 @@ import pip
 from pip.req import parse_requirements
 from setuptools import setup, find_packages
 import os
-from alfred import __version__ as version
-from alfred import __author__ as author
-from alfred import PKG_URL as pkg_url
-from alfred import __name__ as pkg_name
+from kaoru import __version__ as version
+from kaoru import __author__ as author
+from kaoru import PKG_URL as pkg_url
+from kaoru import __name__ as pkg_name
 
 
 # parse_requirements() returns generator of pip.req.InstallRequirement objects
@@ -48,7 +48,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'alfred = alfred.__main__:main',
+            'kaoru = kaoru.__main__:main',
         ],
     },
     install_requires = reqs,
