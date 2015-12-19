@@ -137,24 +137,37 @@ def _unknown(bot, update):
         "I am sorry {}. I'm afraid I cannot do that ...".format(chatter_name)
     )
 
+def _print_cmd_desc(commands):
+    """Print command descriptions"""
+    log.msg_warn("You will need to register my commands with my @BotFather")
+    log.msg_warn("Ask him to /setcommands and after you")
+    log.msg_warn("have mentioned me, you can paste the following:")
+    log.msg("")
+    for command, desc, handler in commands:
+        print("{} - {}".format(command, desc))
+    log.msg("")
+
 def register_commands(updater, dispatcher):
     """register each and every command this bot is going to process"""
 
     commands = [
-        ('hello', _hello),
-        ('lock', _lock),
-        ('reboot', _reboot),
-        ('poweroff', _poweroff),
-        ('cancel', _cancel),
-        ('dryrun', _dryrun),
+        ('hello', 'See if I "live"', _hello),
+        ('lock', 'Lock the screen(s) on your host(s)', _lock),
+        ('reboot', 'Reboot your host(s)', _reboot),
+        ('poweroff', 'Shut down your host(s)', _poweroff),
+        ('cancel', 'Cancel any pending operation(s)', _cancel),
+        ('dryrun', 'Toggle "dry run" mode', _dryrun),
     ]
 
     # register every command there is
-    for command, handler in commands:
+    for command, desc, handler in commands:
         dispatcher.addTelegramCommandHandler(command, handler)
         log.msg_debug("/{}: command registered".format(command))
 
     # and the default one as well ...
     log.msg_debug('Registering default handler')
     dispatcher.addUnknownTelegramCommandHandler(_unknown)
+
+    # print command descriptions
+    _print_cmd_desc(commands)
 
