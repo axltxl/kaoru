@@ -23,7 +23,9 @@ _options = {
     'queue_poweroff': False,
     'time_reboot': 0,
     'time_poweroff': 0,
-    'dry_run': False
+    'dry_run': False,
+    'secure': False,
+    'masters': [],
 }
 _schema = None
 
@@ -44,6 +46,8 @@ def init(*, config_file):
     # Validation schema for each option
     _schema = Schema({
         Optional('token'): str,
+        Optional('secure'): bool,
+        Optional('masters'): lambda x: isinstance(x,list) and all([isinstance(y,str) for y in x]),
         Optional('dry_run'): bool,
         Optional('time_reboot'): int,
         Optional('time_poweroff'): int,

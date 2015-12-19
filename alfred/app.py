@@ -25,6 +25,7 @@ from . import __name__ as pkg_name
 from . import log
 from . import command
 from . import config
+from . import security
 
 # telegram objects to be used
 _tg_dispatcher = None
@@ -106,6 +107,11 @@ def init(argv):
 
     # initialise configuration file
     _config_init(args['--config'])
+
+    # check for secure mode
+    if config.get('secure'):
+        log.msg_warn("Secure mode has been enforced")
+        security.check_masters(config.get('masters'))
 
     # give back the list of arguments captured by docopt
     return args

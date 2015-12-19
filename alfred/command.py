@@ -16,6 +16,8 @@ from . import utils
 from . import log
 from . import config
 from .procutils import proc_exec
+from . import security
+
 
 def bot_command(command_func):
     """
@@ -35,6 +37,15 @@ def bot_command(command_func):
                 username, userid, command
             )
         )
+
+        # perform security checks
+        try:
+            security.check_update(update)
+        except security.SecurityException as sec_except:
+            log.msg_err(sec_except)
+            return
+
+        # Finally, execute the intended command
         command_func(bot, update)
 
     # give the thing back!
