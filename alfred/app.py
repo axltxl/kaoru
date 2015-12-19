@@ -30,6 +30,56 @@ from . import config
 _tg_dispatcher = None
 _tg_updater = None
 
+def _config_init(config_file):
+    """Initialise the configuration file"""
+
+    # default config directory should be XDG-compliant
+    config_dir_default = "{}/.config/{}".format(
+        os.getenv('HOME'),
+        pkg_name
+    )
+    config_file_default = "{}.conf".format(pkg_name)
+
+    # Create configuration directory if it does not exist
+    if not os.path.exists(config_dir_default):
+        log.msg_warn(
+            "Configuration directory '{out_dir}' does not exist, creating it ..."
+            .format(out_dir=config_dir_default))
+        # create the actual default configuration directory
+        os.makedirs(config_dir_default)
+
+    if config_file is None:
+        config_file = "{}/{}".format(config_dir_default, config_file_default)
+    log.msg("Reading configuration file at: {}".format(config_file))
+    config.init(config_file=config_file)
+
+    #########################################################
+    # Telegram Bot API token:
+    # It can be obtained by either via the configuration file
+    # or the environment variable TG_TOKEN
+    #########################################################
+    if config.get('token') is None:
+        token = os.getenv('TG_TOKEN')
+        if token is None:
+            raise SystemError('A Telegram Bot API token is mandatory for this thing to work!')
+        else:
+            log.msg_debug('got Telegram Bot API token from environment variable')
+        config.set('token', token)
+    else:
+        log.msg_debug('got Telegram Bot API token from configuration file')
+
+    # print final configuration
+    log.msg_debug("Configuration settings are the following:")
+    log.msg_debug("-----------------------------------------")
+    cfg_opts = config.options().copy()
+    # mangle token before showing it off
+    token = cfg_opts['token']
+    mangled_token = '*' * (len(token)//2)
+    mangled_token = "{}{}".format(mangled_token, token[len(token)//2+1:])
+    cfg_opts['token'] = mangled_token
+    log.msg_debug(cfg_opts)
+    log.msg_debug("-----------------------------------------")
+
 def init(argv):
     """Usage: alfred [--log-level LVL] [--log-file FILE] [--dry-run] [--config FILE]
 
