@@ -21,8 +21,8 @@ _options = {
     'token': None,
     'queue_reboot': False,
     'queue_poweroff': False,
-    'time_reboot': 1,
-    'time_poweroff': 1,
+    'time_reboot': 0,
+    'time_poweroff': 0,
     'dry_run': False
 }
 _schema = None
