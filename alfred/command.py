@@ -61,7 +61,7 @@ def _dryrun(bot, update):
 
 # /lock command:
 @bot_command
-def _lock(bot, update):
+def _screenlock(bot, update):
     """
     it basically runs screenlock script resulting
     in the execution of i3lock
@@ -152,7 +152,7 @@ def register_commands(updater, dispatcher):
 
     commands = [
         ('hello', 'See if I "live"', _hello),
-        ('lock', 'Lock the screen(s) on your host(s)', _lock),
+        ('screenlock', 'Lock the screen(s) on your host(s)', _screenlock),
         ('reboot', 'Reboot your host(s)', _reboot),
         ('poweroff', 'Shut down your host(s)', _poweroff),
         ('cancel', 'Cancel any pending operation(s)', _cancel),
