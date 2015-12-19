@@ -11,11 +11,11 @@ Command handlers
 
 """
 
-import envoy
 from telegram import Updater
 from . import utils
 from . import log
 from . import config
+from .procutils import proc_exec
 
 def bot_command(command_func):
     """
@@ -68,7 +68,7 @@ def _lock(bot, update):
     """
 
     utils.echo_msg(bot, update, "Your screen(s) are now LOCKED")
-    envoy.run('screenlock')
+    proc_exec('screenlock')
 
 # /poweroff command:
 @bot_command
@@ -82,8 +82,10 @@ def _poweroff(bot, update):
                 config.get('time_poweroff')
             )
         )
-        if not config.get('dry_run'):
-            envoy.run('sudo shutdown -P +{}'.format(config.get('time_poweroff')))
+        proc_exec("sudo shutdown -P +{}".format(
+                config.get('time_poweroff')
+            )
+        )
         config.set('queue_poweroff', True)
     else:
         utils.echo_msg(
@@ -97,8 +99,7 @@ def _poweroff(bot, update):
 def _cancel(bot, update):
     """Cancel any pending reboot/poweroffs"""
 
-    if not config.get('dry_run'):
-        envoy.run("sudo shutdown -c")
+    proc_exec("sudo shutdown -c")
     config.set('queue_reboot', False)
     config.set('queue_poweroff', False)
     utils.echo_msg(bot, update, "Operations cancelled")
@@ -115,8 +116,10 @@ def _reboot(bot, update):
                 config.get('time_reboot')
             )
         )
-        if not config.get('dry_run'):
-            envoy.run('sudo shutdown -r +{}'.format(config.get('time_reboot')))
+        proc_exec("sudo shutdown -r +{}".format(
+                config.get('time_reboot')
+            )
+        )
         config.set('queue_reboot', True)
     else:
         utils.echo_msg(
