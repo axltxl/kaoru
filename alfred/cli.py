@@ -16,6 +16,7 @@ from clint.textui.colored import red, cyan
 from clint.textui.prompt import query
 
 from . import command
+from . import config
 
 def _prompt_str(botname):
     """Print prompt string"""
