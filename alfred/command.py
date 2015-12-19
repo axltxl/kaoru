@@ -94,7 +94,7 @@ def _screenlock(bot, update):
     """
 
     utils.echo_msg(bot, update, "Your screen(s) are now LOCKED")
-    proc_exec('screenlock')
+    proc_exec(config.get('screenlock_cmd'))
 
 # /poweroff command:
 @bot_command
@@ -105,11 +105,11 @@ def _poweroff(bot, update):
         utils.echo_msg(
             bot, update,
             "Your machines are to be shutdown in about {} minute(s)".format(
-                config.get('time_poweroff')
+                config.get('poweroff_delay')
             )
         )
         proc_exec("sudo shutdown -P +{}".format(
-                config.get('time_poweroff')
+                config.get('poweroff_delay')
             )
         )
         config.set('queue_poweroff', True)
@@ -139,11 +139,11 @@ def _reboot(bot, update):
         utils.echo_msg(
             bot, update,
             "I'm going to be rebooted in about {} minute(s)".format(
-                config.get('time_reboot')
+                config.get('reboot_delay')
             )
         )
         proc_exec("sudo shutdown -r +{}".format(
-                config.get('time_reboot')
+                config.get('reboot_delay')
             )
         )
         config.set('queue_reboot', True)

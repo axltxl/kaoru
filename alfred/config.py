@@ -12,7 +12,7 @@ Configuration goes in here
 """
 
 import yaml
-from schema import Schema, Optional
+from schema import Schema, Optional, And
 
 from . import log
 
@@ -21,8 +21,9 @@ _options = {
     'token': None,
     'queue_reboot': False,
     'queue_poweroff': False,
-    'time_reboot': 0,
-    'time_poweroff': 0,
+    'reboot_delay': 0,
+    'poweroff_delay': 0,
+    'screenlock_cmd': 'xlock',
     'dry_run': False,
     'secure': False,
     'masters': [],
@@ -51,8 +52,9 @@ def init(*, config_file):
         Optional('cli'): bool,
         Optional('masters'): lambda x: isinstance(x,list) and all([isinstance(y,str) for y in x]),
         Optional('dry_run'): bool,
-        Optional('time_reboot'): int,
-        Optional('time_poweroff'): int,
+        Optional('reboot_delay'): int,
+        Optional('screenlock_cmd'): str,
+        Optional('poweroff_delay'): int,
         })
 
     # Load YAML file and validate it
