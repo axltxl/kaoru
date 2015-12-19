@@ -23,8 +23,11 @@ def bot_command(command_func):
     routines on top of its target function
     """
 
-    # the actual middleware function
-    def _middleware(bot, update):
+    # the actual wrapper function
+    def _wrapper(bot, update):
+        ###################################
+        # all middleware can be run in here
+        ###################################
         username = update.message.from_user.username
         userid = update.message.from_user.id
         command = update.message.text
@@ -35,7 +38,7 @@ def bot_command(command_func):
         command_func(bot, update)
 
     # give the thing back!
-    return _middleware
+    return _wrapper
 
 # /hello command
 @bot_command
