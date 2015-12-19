@@ -172,12 +172,16 @@ def start(dry_run=False):
     ####################################
     update_queue = _tg_updater.start_polling(poll_interval=0.5, timeout=5)
 
+    # Mark the beginning of everything
     log.msg("Waiting for updates ...")
-    # while True:
-        # time.sleep(1)
 
     # Start CLI-Loop
-    cli.prompt_loop(_tg_dispatcher, update_queue)
+    if config.get('cli'):
+        cli.prompt_loop(_tg_dispatcher, update_queue)
+    else:
+        while True:
+            time.sleep(1)
+
 
 def _handle_signal(signum, frame):
     """
