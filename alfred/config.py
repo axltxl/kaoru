@@ -56,13 +56,30 @@ def init(*, config_file):
             for key, value in data.items():
                 # overwrite defaults with values taken
                 # from the configuration file
-                if key in _options:
-                    _options[key] = value
+                _list_merge(data, _options)
     except FileNotFoundError as fnfe:
         log.msg_warn(
             '{}: configuration file not found, '
             'proceeding with default values'.format(config_file)
         )
+
+def _list_merge(src, dest):
+    """
+    Merge the contents coming from src into dest
+
+    :param src: source dictionary
+    :param dest: destination dictionary
+    """
+    for k in src:
+        if type(src[k]) != dict:
+            dest[k] = src[k]
+        else:
+            # ---
+            # src could have a key whose value is a list
+            # and does not yet exist on dest
+            if k not in dest:
+                dest[k] = {}
+            _list_merge(src[k], dest[k])
 
 def options():
     """Get the whole options set"""
