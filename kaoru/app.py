@@ -170,7 +170,11 @@ def start(dry_run=False):
     ####################################
     # Start listening for actual updates
     ####################################
-    update_queue = _tg_updater.start_polling(poll_interval=0.5, timeout=5)
+    update_queue = _tg_updater.start_polling(
+        poll_interval=0.5,
+        timeout=5,
+        network_delay=10
+    )
 
     # Mark the beginning of everything
     log.msg("Waiting for updates ...")
