@@ -11,13 +11,15 @@ Command handlers
 
 """
 
-from telegram import Updater
+from telegram import Updater, Update
 from . import utils
 from . import log
 from . import config
 from .procutils import proc_exec
 from . import security
 
+# list of available commands
+_commands = None
 
 def bot_command(command_func):
     """
@@ -30,20 +32,26 @@ def bot_command(command_func):
         ###################################
         # all middleware can be run in here
         ###################################
-        username = update.message.from_user.username
-        userid = update.message.from_user.id
-        command = update.message.text
-        log.msg_debug("[{}:{}] Received command: '{}'".format(
-                username, userid, command
+        if isinstance(update, Update):
+            username = update.message.from_user.username
+            userid = update.message.from_user.id
+            command = update.message.text
+            log.msg_debug("[{}:{}] Received command: '{}'".format(
+                    username, userid, command
+                )
             )
-        )
 
-        # perform security checks
-        try:
-            security.check_update(update)
-        except security.SecurityException as sec_except:
-            log.msg_err(sec_except)
-            return
+            #########################
+            # perform security checks
+            #########################
+            try:
+                security.check_update(update)
+            except security.SecurityException as sec_except:
+                log.msg_err(sec_except)
+                return
+        else:
+            # I have received a string command
+            log.msg_debug("Received command: '{}'".format(update))
 
         # Finally, execute the intended command
         command_func(bot, update)
@@ -56,11 +64,15 @@ def bot_command(command_func):
 def _hello(bot, update):
     """a rather simple ping command"""
 
-    chatter_name = update.message.from_user.first_name
-    utils.echo_msg(
-        bot, update,
-        "Affirmative, {}. I read you. ".format(chatter_name)
-    )
+    if isinstance(update, Update):
+        chatter_name = update.message.from_user.first_name
+        utils.echo_msg(
+            bot, update,
+            "Affirmative, {}. I read you. ".format(chatter_name)
+        )
+    else:
+        utils.echo_msg(bot, update, "Affirmative. I read you. ")
+
 
 # /dryrun command
 @bot_command
@@ -161,10 +173,16 @@ def _print_cmd_desc(commands):
         print("{} - {}".format(command, desc))
     log.msg("")
 
+def get_list():
+    """List of available commands"""
+
+    return _commands
+
 def register_commands(updater, dispatcher):
     """register each and every command this bot is going to process"""
 
-    commands = [
+    global _commands
+    _commands = [
         ('hello', 'See if I "live"', _hello),
         ('screenlock', 'Lock the screen(s) on your host(s)', _screenlock),
         ('reboot', 'Reboot your host(s)', _reboot),
@@ -172,16 +190,16 @@ def register_commands(updater, dispatcher):
         ('cancel', 'Cancel any pending operation(s)', _cancel),
         ('dryrun', 'Toggle "dry run" mode', _dryrun),
     ]
-
     # register every command there is
-    for command, desc, handler in commands:
+    for command, desc, handler in _commands:
         dispatcher.addTelegramCommandHandler(command, handler)
+        dispatcher.addStringCommandHandler(command, handler)
         log.msg_debug("/{}: command registered".format(command))
 
     # and the default one as well ...
-    log.msg_debug('Registering default handler')
+    log.msg_debug('Registering default handlers')
     dispatcher.addUnknownTelegramCommandHandler(_unknown)
 
     # print command descriptions
-    _print_cmd_desc(commands)
+    _print_cmd_desc(_commands)
 

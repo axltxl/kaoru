@@ -18,6 +18,7 @@ import logging
 import logging.handlers
 from . import __name__ as pkg_name
 from clint.textui.colored import white, red, cyan, yellow, green
+from clint.textui import puts
 
 #
 # Constants
@@ -82,7 +83,7 @@ def init(*, threshold_lvl=1, quiet_stdout=False, log_file):
 
 def to_stdout(msg, *, colorf=green, bold=False):
     if _stdout:
-        print(colorf(msg, bold=bold))
+        puts(colorf(msg, bold=bold))
 
 
 def msg(message, *, bold=False):

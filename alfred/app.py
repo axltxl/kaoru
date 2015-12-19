@@ -26,6 +26,7 @@ from . import log
 from . import command
 from . import config
 from . import security
+from . import cli
 
 # telegram objects to be used
 _tg_dispatcher = None
@@ -143,20 +144,6 @@ def start(dry_run=False):
     # whether to set dry run mode
     config.set('dry_run', dry_run)
 
-    #########################################################
-    # Telegram Bot API token:
-    # It can be obtained by either via the configuration file
-    # or the environment variable TG_TOKEN
-    #########################################################
-    if config.get('token') is None:
-        token = os.getenv('TG_TOKEN')
-        if token is None:
-            raise SystemError('A Telegram Bot API token is mandatory for this thing to work!')
-        else:
-            log.msg_debug('got Telegram Bot API token from environment variable')
-        config.set('token', token)
-    else:
-        log.msg_debug('got Telegram Bot API token from configuration file')
 
     # ... and as well a few other things that are necessary
     global _tg_updater, _tg_dispatcher
@@ -183,11 +170,14 @@ def start(dry_run=False):
     ####################################
     # Start listening for actual updates
     ####################################
-    _tg_updater.start_polling(poll_interval=0.5, timeout=5)
+    update_queue = _tg_updater.start_polling(poll_interval=0.5, timeout=5)
 
-    log.msg("Listening for requests ...")
-    while True:
-        time.sleep(1)
+    log.msg("Waiting for updates ...")
+    # while True:
+        # time.sleep(1)
+
+    # Start CLI-Loop
+    cli.prompt_loop(_tg_dispatcher, update_queue)
 
 def _handle_signal(signum, frame):
     """
