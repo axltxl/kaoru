@@ -32,26 +32,27 @@ from . import cli
 _tg_dispatcher = None
 _tg_updater = None
 
+##################################################
+# Configuration file defaults
+# default config directory should be XDG-compliant
+##################################################
+_config_dir_default = "{}/.config/{}".format(os.getenv('HOME'), pkg_name)
+_config_file_default = "{}.conf".format(pkg_name)
+
 def _config_init(config_file):
     """Initialise the configuration file"""
 
-    # default config directory should be XDG-compliant
-    config_dir_default = "{}/.config/{}".format(
-        os.getenv('HOME'),
-        pkg_name
-    )
-    config_file_default = "{}.conf".format(pkg_name)
-
     # Create configuration directory if it does not exist
-    if not os.path.exists(config_dir_default):
+    if not os.path.exists(_config_dir_default):
         log.msg_warn(
-            "Configuration directory '{out_dir}' does not exist, creating it ..."
-            .format(out_dir=config_dir_default))
+            "Configuration directory '{}' does not exist, creating it ..."
+            .format(_config_dir_default)
+        )
         # create the actual default configuration directory
-        os.makedirs(config_dir_default)
+        os.makedirs(_config_dir_default)
 
     if config_file is None:
-        config_file = "{}/{}".format(config_dir_default, config_file_default)
+        config_file = "{}/{}".format(_config_dir_default, _config_file_default)
     log.msg("Reading configuration file at: {}".format(config_file))
     config.init(config_file=config_file)
 
