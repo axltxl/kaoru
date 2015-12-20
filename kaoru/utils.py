@@ -26,12 +26,19 @@ def echo_msg(bot, update, msg):
         log.msg("echo message [{}@{}]: {}".format(username, userid, msg))
 
         # reformat message so it includes this machine's host name
-        hostname = socket.gethostname()
-        if not config.get('dry_run'):
-            tag = "[{}]".format(hostname)
-        else:
-            tag = "[{}:dry-run]".format(hostname)
-        msg = "{} {}".format(tag, msg)
+        show_hostname = config.get('show_hostname')
+        dry_run = config.get('dry_run')
+        if show_hostname or dry_run:
+            tag = ""
+            if show_hostname:
+                tag = socket.gethostname()
+            if dry_run:
+                if len(tag):
+                    tag += ":dr"
+                else:
+                    tag = "dr"
+            tag = "[{}]".format(tag)
+            msg = "{} {}".format(tag, msg)
 
         # send the actual message
         bot.sendMessage(

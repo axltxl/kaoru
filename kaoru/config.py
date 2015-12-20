@@ -27,6 +27,7 @@ _options = {
     'dry_run': False,
     'strict': False,
     'masters': [],
+    'show_hostname': False,
     'cli': False,
 }
 _schema = None
@@ -52,6 +53,7 @@ def init(*, config_file):
         Optional('cli'): bool,
         Optional('masters'): lambda x: isinstance(x,list) and all([isinstance(y,str) for y in x]),
         Optional('dry_run'): bool,
+        Optional('show_hostname'): bool,
         Optional('reboot_delay'): int,
         Optional('screenlock_cmd'): str,
         Optional('poweroff_delay'): int,
