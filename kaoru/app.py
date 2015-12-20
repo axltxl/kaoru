@@ -83,11 +83,18 @@ def _config_init(config_file):
     log.msg_debug(cfg_opts)
     log.msg_debug("-----------------------------------------")
 
+def _log_init(log_file, log_lvl):
+    """Initialise log file"""
+
+    if not log_file:
+        log_file = "{}/{}".format(_config_dir_default, log.LOG_FILE_DEFAULT)
+    log.init(log_file=log_file, threshold_lvl=int(log_lvl))
+
 def init(argv):
     """Usage: kaoru [--log-level LVL] [--log-file FILE] [--dry-run] [--config FILE]
 
     --log-level LVL  Verbosity level on output [default: 1]
-    --log-file FILE  Log file [default: kaoru.log]
+    --log-file FILE  Log file
     --config FILE    Configuration file to use
     --dry-run        Dry run mode (don't do anything)
     """
@@ -99,10 +106,7 @@ def init(argv):
     signal.signal(signal.SIGTERM, _handle_signal)
 
     # initialize log
-    if not args['--log-file']:
-        args['--log-file'] = log.LOG_FILE_DEFAULT
-    log.init(log_file=args['--log-file'],
-             threshold_lvl=int(args['--log-level']))
+    _log_init(args['--log-file'], args['--log-level'])
 
     # show splash
     _splash()
