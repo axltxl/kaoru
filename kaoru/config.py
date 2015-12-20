@@ -25,7 +25,7 @@ _options = {
     'poweroff_delay': 0,
     'screenlock_cmd': 'xlock',
     'dry_run': False,
-    'secure': False,
+    'strict': False,
     'masters': [],
     'cli': False,
 }
@@ -48,7 +48,7 @@ def init(*, config_file):
     # Validation schema for each option
     _schema = Schema({
         Optional('token'): str,
-        Optional('secure'): bool,
+        Optional('strict'): bool,
         Optional('cli'): bool,
         Optional('masters'): lambda x: isinstance(x,list) and all([isinstance(y,str) for y in x]),
         Optional('dry_run'): bool,

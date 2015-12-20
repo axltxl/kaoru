@@ -114,9 +114,9 @@ def init(argv):
     # initialise configuration file
     _config_init(args['--config'])
 
-    # check for secure mode
-    if config.get('secure'):
-        log.msg_warn("Secure mode has been enforced")
+    # check for strict mode
+    if config.get('strict'):
+        log.msg_warn("Strict mode has been enforced")
         security.check_masters(config.get('masters'))
 
     # give back the list of arguments captured by docopt

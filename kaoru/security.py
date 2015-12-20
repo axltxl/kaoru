@@ -27,7 +27,7 @@ def check_update(update):
 
     # check whether the update comes from
     # one of my 'masters'
-    if config.get('secure'):
+    if config.get('strict'):
         username = update.message.from_user.username
         command = update.message.text
         if not username in config.get('masters'):
