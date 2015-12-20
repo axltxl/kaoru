@@ -173,7 +173,7 @@ that you **enforce strict mode** on your configuration file, like so:
 
     # The following are the users who can talk
     # to kaoru. Requests coming from users outside
-    # this list are simple IGNORED.
+    # this list are simply IGNORED.
     masters:
         - <your Telegram user name>
         - betty # your friend betty can also talk to kaoru
