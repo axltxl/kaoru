@@ -9,10 +9,6 @@ kaoru
 **kaoru** can be defined as a Telegram Bot whose roles are much alike
 to those related to IoT personal assistant.
 
-.. image:: http://i.imgur.com/bx9JueC.jpg
-    :height: 100px
-    :align: center
-
 OK, I think I get the idea, but what is it good for?
 ----------------------------------------------------
 
