@@ -113,7 +113,7 @@ def _base_dirs_init():
 def init(argv):
     """Usage: kaoru [options]
 
-    -L LVL --log-level LVL  Verbosity level on output [default: 1]
+    -L LVL --log-level LVL  Verbosity level on output [default: 0]
     -i --interactive        CLI mode
     -l --log-file FILE      Log file
     -c FILE --config FILE   Configuration file to use
