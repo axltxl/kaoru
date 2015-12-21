@@ -125,6 +125,7 @@ def _screenshot(bot, update):
     # for the moment, there is only support
     # for scrot as the screenshooter
 
+    # imagemagick
     if re.match('.*import$', screenshot_exec):
         screenshot_file += '.jpg'
         screenshot_exec = "{} -window root -quality {} {}".format(
@@ -132,6 +133,7 @@ def _screenshot(bot, update):
             screenshot_jpeg_quality,
             screenshot_file
         )
+    # scrot
     elif re.match('.*scrot$', screenshot_exec):
         screenshot_file += '.jpg'
         screenshot_exec = "{} -q {} {}".format(
