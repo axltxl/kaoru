@@ -11,11 +11,14 @@ Command handlers
 
 """
 
+import uuid
+import os
+import re
 from telegram import Updater, Update
 from . import utils
 from . import log
 from . import config
-from .procutils import proc_exec
+from .procutils import proc_exec, proc_exec_async, proc_select
 from . import security
 
 # list of available commands
@@ -85,16 +88,64 @@ def _dryrun(bot, update):
         status = "OFF"
     utils.echo_msg(bot, update, "Dry run mode is {}".format(status))
 
-# /lock command:
+# /screenlock command:
 @bot_command
 def _screenlock(bot, update):
     """
-    it basically runs screenlock script resulting
-    in the execution of i3lock
+    it basically runs a screen locker
     """
 
     utils.echo_msg(bot, update, "Your screen(s) are now LOCKED")
-    proc_exec(config.get('screenlock_cmd'))
+    # check for executables set for commands
+    screenlock_exec = proc_select([
+        'xlock', 'xscreensaver', 'i3lock'
+        ],
+        command='screenlock',
+        user_exec=config.get('screenlock_cmd')
+    )
+    proc_exec_async(screenlock_exec)
+
+# /screenshot command:
+@bot_command
+def _screenshot(bot, update):
+    """
+    it basically takes a screen shot
+    """
+
+    # check for executables set for commands
+    screenshot_exec = proc_select(['scrot'], command='screenshot')
+
+    # file name is set without extension at first, depending on the
+    # program being selected for the job, an extension will be chosen
+    screenshot_file = "/tmp/{}".format(uuid.uuid4().hex)
+
+    # screen shot quality (for jpeg)
+    screenshot_jpeg_quality = 60
+
+    if re.match('.*scrot$', screenshot_exec):
+        screenshot_file += '.jpg'
+        screenshot_exec = "{} -q {} {}".format(
+            screenshot_exec,
+            screenshot_jpeg_quality,
+            screenshot_file
+        )
+
+    # execute the thing
+    proc_exec(screenshot_exec)
+
+    # check is the file is available
+    if os.path.isfile(screenshot_file):
+        utils.echo_msg(bot, update, "Here you go, Sir.")
+        if isinstance(update, Update):
+            with open(screenshot_file, 'rb') as photo:
+                log.msg_debug("sending picture:{}".format(screenshot_file))
+                bot.sendPhoto(
+                    photo=photo,
+                    chat_id=update.message.chat_id
+                )
+    else:
+        utils.echo_msg(bot, update, "Sorry!")
+
 
 # /poweroff command:
 @bot_command
@@ -108,7 +159,7 @@ def _poweroff(bot, update):
                 config.get('poweroff_delay')
             )
         )
-        proc_exec("sudo shutdown -P +{}".format(
+        proc_exec_async("sudo shutdown -P +{}".format(
                 config.get('poweroff_delay')
             )
         )
@@ -125,7 +176,7 @@ def _poweroff(bot, update):
 def _cancel(bot, update):
     """Cancel any pending reboot/poweroffs"""
 
-    proc_exec("sudo shutdown -c")
+    proc_exec_async("sudo shutdown -c")
     config.set('queue_reboot', False)
     config.set('queue_poweroff', False)
     utils.echo_msg(bot, update, "Operations cancelled")
@@ -142,7 +193,7 @@ def _reboot(bot, update):
                 config.get('reboot_delay')
             )
         )
-        proc_exec("sudo shutdown -r +{}".format(
+        proc_exec_async("sudo shutdown -r +{}".format(
                 config.get('reboot_delay')
             )
         )
@@ -185,6 +236,7 @@ def register_commands(updater, dispatcher):
     _commands = [
         ('hello', 'See if I "live"', _hello),
         ('screenlock', 'Lock the screen(s) on your host(s)', _screenlock),
+        ('screenshot', 'Get a screenshot from your host(s)', _screenshot),
         ('reboot', 'Reboot your host(s)', _reboot),
         ('poweroff', 'Shut down your host(s)', _poweroff),
         ('cancel', 'Cancel any pending operation(s)', _cancel),

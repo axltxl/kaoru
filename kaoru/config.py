@@ -23,7 +23,7 @@ _options = {
     'queue_poweroff': False,
     'reboot_delay': 0,
     'poweroff_delay': 0,
-    'screenlock_cmd': 'xlock',
+    'screenlock_cmd': None,
     'dry_run': False,
     'strict': False,
     'masters': [],
@@ -72,6 +72,7 @@ def init(*, config_file):
             '{}: configuration file not found, '
             'proceeding with default values'.format(config_file)
         )
+
 
 def _list_merge(src, dest):
     """
