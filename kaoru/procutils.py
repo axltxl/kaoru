@@ -45,7 +45,7 @@ def proc_select(exec_list, *, user_exec=None, command):
 
     Select the preferred executable for a command, if user_exec is None,
     this will check for every executable in exec_list in PATH.
-    If none is found, it will return the first in the list.
+    If none is found, it will return None
 
     :param exec_list: list of executable nominees
     :param user_exec: user selection for the executable used for a command
@@ -68,8 +68,6 @@ def proc_select(exec_list, *, user_exec=None, command):
             r = envoy.run("which {}".format(prog))
             if r.status_code == 0:
                 selected_exec = r.std_out[:-1]
-    if selected_exec is None:
-        selected_exec = exec_list[1]
 
     log.msg_debug("[{}] executable for this command is: {}".format(command, selected_exec))
     return selected_exec
