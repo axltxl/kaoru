@@ -14,6 +14,6 @@ The very basics
 PKG_URL = 'https://github.com/axltxl/kaoru'
 __name__ = 'kaoru'
 __author__ = 'Alejandro Ricoveri'
-__version__ = '0.0.1a1'
+__version__ = '0.1.0'
 __licence__ = 'MIT'
 __copyright__ = 'Copyright (c) Alejandro Ricoveri'
