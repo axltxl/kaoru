@@ -144,7 +144,11 @@ def _screenshot(bot, update):
                     chat_id=update.message.chat_id
                 )
     else:
-        utils.echo_msg(bot, update, "Sorry!")
+        utils.echo_msg(
+            bot, update,
+            "I am sorry, I have been unable "
+            "to generate the screenshot you wished."
+        )
 
 
 # /poweroff command:
