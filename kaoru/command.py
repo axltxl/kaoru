@@ -131,9 +131,12 @@ def _screenshot(bot, update):
             screenshot_jpeg_quality,
             screenshot_file
         )
+    else:
+        log.msg_err("No screenshot backend has been found!")
 
     # execute the thing
-    proc_exec(screenshot_exec)
+    if screenshot_exec is not None:
+        proc_exec(screenshot_exec)
 
     # check is the file is available
     if os.path.isfile(screenshot_file):
