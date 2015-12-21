@@ -37,7 +37,7 @@ setup(
     download_url="{url}/tarball/{version}".format(url=pkg_url, version=version),
     keywords=['telegram', 'iot'],
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Environment :: Console	',
         'Natural Language :: English',
         'License :: OSI Approved :: MIT License',
