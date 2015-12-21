@@ -143,13 +143,17 @@ def _screenshot(bot, update):
         utils.echo_msg(bot, update, "Here you go, Sir.")
         if isinstance(update, Update):
             with open(screenshot_file, 'rb') as photo:
-                log.msg_debug("sending picture:{}".format(screenshot_file))
+                log.msg_debug("{}: {} byte(s)".format(
+                    screenshot_file,
+                    os.path.getsize(screenshot_file)
+                ))
+                log.msg_debug("{}: sending picture".format(screenshot_file))
                 # send the actual pic
                 bot.sendPhoto(
                     photo=photo,
                     chat_id=update.message.chat_id
                 )
-                log.msg_debug("picture sent")
+                log.msg_debug("{}: picture sent".format(screenshot_file))
     else:
         utils.echo_msg(
             bot, update,
