@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-kaoru.executor
+kaoru.procutils
 ~~~~~~~~
 
 Utilities for executing external processes
@@ -36,7 +36,7 @@ def proc_exec_async(cmd):
 
 @_proc_exec
 def proc_exec(cmd):
-    """Run a process, asynchronously"""
+    """Run a process, synchronously"""
 
     return envoy.run(cmd)
 

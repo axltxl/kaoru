@@ -122,6 +122,8 @@ def _screenshot(bot, update):
     # screen shot quality (for jpeg)
     screenshot_jpeg_quality = 60
 
+    # for the moment, there is only support
+    # for scrot as the screenshooter
     if re.match('.*scrot$', screenshot_exec):
         screenshot_file += '.jpg'
         screenshot_exec = "{} -q {} {}".format(
@@ -139,10 +141,12 @@ def _screenshot(bot, update):
         if isinstance(update, Update):
             with open(screenshot_file, 'rb') as photo:
                 log.msg_debug("sending picture:{}".format(screenshot_file))
+                # send the actual pic
                 bot.sendPhoto(
                     photo=photo,
                     chat_id=update.message.chat_id
                 )
+                log.msg_debug("picture sent")
     else:
         utils.echo_msg(
             bot, update,
