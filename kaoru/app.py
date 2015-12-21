@@ -79,7 +79,7 @@ def _mangle_token(token):
 def _log_init(log_file, log_lvl):
     """Initialise log file"""
 
-    if not log_file:
+    if log_file is None:
         log_file = "{}/{}".format(_config_dir_default, log.LOG_FILE_DEFAULT)
     log.init(log_file=log_file, threshold_lvl=int(log_lvl))
 
