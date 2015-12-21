@@ -154,7 +154,7 @@ def _screenshot(bot, update):
         utils.echo_msg(
             bot, update,
             "I am sorry, I have been unable "
-            "to generate the screenshot you wished."
+            "to generate that screenshot you wished."
         )
 
 
