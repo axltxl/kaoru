@@ -1,7 +1,7 @@
 kaoru
 =========
 .. image:: https://badge.fury.io/py/kaoru.svg
-   :target: http://badge.fury.io/py/kaoru
+    :target: http://badge.fury.io/py/kaoru
 
 [WIP] A Telegram Bot as your personal IoT assistant
 -------------------------------------------------------------
@@ -10,6 +10,8 @@ kaoru
 to those related to IoT personal assistant.
 
 .. image:: http://i.imgur.com/bx9JueC.jpg
+    :height: 100px
+    :align: center
 
 OK, I think I get the idea, but what is it good for?
 ----------------------------------------------------
