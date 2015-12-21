@@ -36,20 +36,11 @@ _tg_updater = None
 # Configuration file defaults
 # default config directory should be XDG-compliant
 ##################################################
-_config_dir_default = "{}/.config/{}".format(os.getenv('HOME'), pkg_name)
-_config_file_default = "{}.conf".format(pkg_name)
+_config_dir_default = None
+_config_file_default = None
 
 def _config_init(config_file):
     """Initialise the configuration file"""
-
-    # Create configuration directory if it does not exist
-    if not os.path.exists(_config_dir_default):
-        log.msg_warn(
-            "Configuration directory '{}' does not exist, creating it ..."
-            .format(_config_dir_default)
-        )
-        # create the actual default configuration directory
-        os.makedirs(_config_dir_default)
 
     if config_file is None:
         config_file = "{}/{}".format(_config_dir_default, _config_file_default)
@@ -90,6 +81,33 @@ def _log_init(log_file, log_lvl):
         log_file = "{}/{}".format(_config_dir_default, log.LOG_FILE_DEFAULT)
     log.init(log_file=log_file, threshold_lvl=int(log_lvl))
 
+def _base_dirs_init():
+    """Initialise base configuration directory
+
+    This base directory is used to read configuration (if --config is not set)
+    and also used for appending a log file (if --log-file is not set)
+    """
+
+    global _config_dir_default, _config_file_default
+
+    # This configuration directory should be XDG-compliant, but not expected
+    config_dir = os.getenv('XDG_CONFIG_HOME') # default base directory
+    if config_dir is None:
+        config_dir = "{}/.config".format(os.getenv('HOME'))
+
+    # set base configuration directory and corresponding file as well
+    _config_dir_default = "{}/{}".format(config_dir, pkg_name)
+    _config_file_default = "{}.conf".format(pkg_name)
+
+    # Create configuration directory if it does not exist
+    if not os.path.exists(_config_dir_default):
+        log.msg_warn(
+            "Configuration directory '{}' does not exist, creating it ..."
+            .format(_config_dir_default)
+        )
+        # create the actual default configuration directory
+        os.makedirs(_config_dir_default)
+
 def init(argv):
     """Usage: kaoru [--log-level LVL] [--log-file FILE] [--dry-run] [--config FILE]
 
@@ -104,6 +122,10 @@ def init(argv):
     # This baby will handle UNIX signals
     signal.signal(signal.SIGINT, _handle_signal)
     signal.signal(signal.SIGTERM, _handle_signal)
+
+
+    # Intialialise base directories, first of all
+    _base_dirs_init()
 
     # initialize log
     _log_init(args['--log-file'], args['--log-level'])
