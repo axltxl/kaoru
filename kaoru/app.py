@@ -65,14 +65,16 @@ def _config_init(config_file):
     # print final configuration
     log.msg_debug("Configuration settings are the following:")
     log.msg_debug("-----------------------------------------")
-    cfg_opts = config.options().copy()
-    # mangle token before showing it off
-    token = cfg_opts['token']
-    mangled_token = '*' * (len(token)//2)
-    mangled_token = "{}{}".format(mangled_token, token[len(token)//2+1:])
-    cfg_opts['token'] = mangled_token
-    log.msg_debug(cfg_opts)
+    cfg_opts = config.options().copy() # since token is "mangled before showing
+    cfg_opts['token'] = _mangle_token(cfg_opts['token'])
+    for key, value in cfg_opts.items():
+        log.msg_debug("{:16} => {}".format(key, value))
     log.msg_debug("-----------------------------------------")
+
+def _mangle_token(token):
+    """Slaughter a token for public exposure"""
+    _tl = len(token)//2
+    return "{}{}".format('*' * (_tl), token[_tl+1:])
 
 def _log_init(log_file, log_lvl):
     """Initialise log file"""
