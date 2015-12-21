@@ -21,10 +21,10 @@ from . import log
 # Database schema
 #################
 _db_schema = """
-create table updates (
-   id      integer primary key not null,
-   usr_id  integer not null,
-   message text not null
+CREATE TABLE updates (
+   id      INTEGER PRIMARY KEY NOT NULL,
+   usr_id  INTEGER NOT NULL,
+   message TEXT NOT NULL
 )
 """
 _db_file = None # database file used by sqlite3
@@ -58,7 +58,7 @@ def insert_update(update):
     user_id = update.message.from_user.id
     message = update.message.text
     log.msg_debug("sqlite: inserting update '{}'".format(update_id))
-    query("insert into updates values({}, {}, '{}')".format(
+    query("INSERT INTO updates VALUES({}, {}, '{}')".format(
             update_id, user_id, message
         )
     )
@@ -66,7 +66,7 @@ def insert_update(update):
 def get_last_update_id():
     """Get latest update_id"""
 
-    rows = query("select * from updates order by id desc")
+    rows = query("SELECT * FROM updates ORDER BY id DESC LIMIT 1")
     if len(rows):
         return rows[0][0]
     return None
