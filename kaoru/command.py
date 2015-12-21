@@ -113,7 +113,7 @@ def _screenshot(bot, update):
     """
 
     # check for executables set for commands
-    screenshot_exec = proc_select(['scrot'], command='screenshot')
+    screenshot_exec = proc_select(['import', 'scrot'], command='screenshot')
 
     # file name is set without extension at first, depending on the
     # program being selected for the job, an extension will be chosen
@@ -124,7 +124,15 @@ def _screenshot(bot, update):
 
     # for the moment, there is only support
     # for scrot as the screenshooter
-    if re.match('.*scrot$', screenshot_exec):
+
+    if re.match('.*import$', screenshot_exec):
+        screenshot_file += '.jpg'
+        screenshot_exec = "{} -window root -quality {} {}".format(
+            screenshot_exec,
+            screenshot_jpeg_quality,
+            screenshot_file
+        )
+    elif re.match('.*scrot$', screenshot_exec):
         screenshot_file += '.jpg'
         screenshot_exec = "{} -q {} {}".format(
             screenshot_exec,
