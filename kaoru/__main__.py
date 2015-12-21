@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-alfred.__main__
+kaoru.__main__
 ~~~~~~~~
 
 Main entry point
@@ -15,7 +15,7 @@ import sys
 
 from docopt import DocoptExit
 
-from alfred.app import handle_except, init, shutdown, start
+from kaoru.app import handle_except, init, shutdown, start
 
 def main(argv=None):
     """
@@ -37,7 +37,7 @@ def main(argv=None):
         options = init(argv)
 
         # start the thing!
-        start(dry_run=options['--dry-run'])
+        start()
 
     except DocoptExit as dexcept:
         # Deal with wrong arguments
