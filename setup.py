@@ -22,7 +22,7 @@ install_reqs = parse_requirements('requirements.txt', session=pip.download.PipSe
 # reqs is a list of requirement
 # e.g. ['django==1.5.1', 'mezzanine==1.4.6']
 reqs = [str(ir.req) for ir in install_reqs]
-desc = "Your personal assistant"
+desc = "A Telegram Bot as your personal IoT assistant"
 
 setup(
     name=pkg_name,
@@ -31,7 +31,7 @@ setup(
     author=author,
     author_email="alejandroricoveri@gmail.com",
     description=desc,
-    long_description=desc,
+    long_description=open("README.rst"),
     url=pkg_url,
     license='MIT',
     download_url="{url}/tarball/{version}".format(url=pkg_url, version=version),
