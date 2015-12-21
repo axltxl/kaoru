@@ -27,6 +27,7 @@ from . import command
 from . import config
 from . import security
 from . import cli
+from . import db
 
 # telegram objects to be used
 _tg_dispatcher = None
@@ -38,6 +39,13 @@ _tg_updater = None
 ##################################################
 _config_dir_default = None
 _config_file_default = None
+
+
+##################################################
+# Database file defaults
+##################################################
+_db_dir = None
+_db_file = None
 
 def _config_init(config_file):
     """Initialise the configuration file"""
@@ -83,6 +91,10 @@ def _log_init(log_file, log_lvl):
         log_file = "{}/{}".format(_config_dir_default, log.LOG_FILE_DEFAULT)
     log.init(log_file=log_file, threshold_lvl=int(log_lvl))
 
+def _db_init():
+    """Intitialise database file"""
+    db.init(db=_db_file)
+
 def _base_dirs_init():
     """Initialise base configuration directory
 
@@ -109,6 +121,27 @@ def _base_dirs_init():
         )
         # create the actual default configuration directory
         os.makedirs(_config_dir_default)
+
+    # Define database directory
+    global _db_dir, _db_file
+    data_dir = os.getenv('XDG_DATA_HOME')
+    if data_dir is None:
+        data_dir = "{}/.local/share".format(os.getenv('HOME'))
+    _db_dir = "{}/{}".format(data_dir, pkg_name)
+    log.msg_debug("database directory is located at '{}'".format(_db_dir))
+
+    # define database file
+    _db_file = "{}/{}.db".format(_db_dir, pkg_name)
+
+    # Check for database directory
+    if not os.path.exists(_db_dir):
+        log.msg_warn(
+            "Database directory '{}' does not exist, creating it ..."
+            .format(_db_dir)
+        )
+        # create the actual default configuration directory
+        os.makedirs(_db_dir)
+
 
 def init(argv):
     """Usage: kaoru [options]
@@ -138,6 +171,9 @@ def init(argv):
 
     # initialise configuration file
     _config_init(args['--config'])
+
+    # initialise database
+    _db_init()
 
     # check for strict mode
     if config.get('strict'):
@@ -199,6 +235,20 @@ def start():
 
     # Register callbacks for each supported command in this bot
     command.register_commands(_tg_updater, _tg_dispatcher)
+
+    #############################################################
+    # set last update id:
+    # By setting it, the updater's bot will start getting updates
+    # with an offset of last_update_id instead of default 0,
+    # consequently, only unconfirmed updates greater than last_update_id
+    # will be taken into account:
+    # see: https://github.com/python-telegram-bot/python-telegram-bot/blob/master/telegram/updater.py#L171
+    # see: http://python-telegram-bot.readthedocs.org/en/latest/telegram.bot.html#telegram.bot.Bot.getUpdates
+    #############################################################
+    last_update_id = db.get_last_update_id()
+    if last_update_id is not None:
+        log.msg_debug("last_update_id = {}".format(last_update_id))
+        _tg_updater.bot.last_update_id = last_update_id
 
     ####################################
     # Start listening for actual updates
