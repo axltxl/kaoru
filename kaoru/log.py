@@ -23,7 +23,7 @@ from clint.textui import puts
 #
 # Constants
 #
-LOG_LVL_DEFAULT = 1
+LOG_LVL_DEFAULT = 0
 LOG_FILE_DEFAULT = "{pkg_name}.log".format(pkg_name=pkg_name)
 
 # Globals

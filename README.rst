@@ -1,10 +1,11 @@
 kaoru
-=========
+=====
+
 .. image:: https://badge.fury.io/py/kaoru.svg
     :target: http://badge.fury.io/py/kaoru
 
 [WIP] A Telegram Bot as your personal IoT assistant
--------------------------------------------------------------
+---------------------------------------------------
 
 **kaoru** can be defined as a Telegram Bot whose roles are much alike
 to those related to IoT personal assistant.
@@ -19,7 +20,7 @@ administrative tasks on either your office or home laptop, things that you
 maybe forgot to do, or things you could only do by getting in front of them.
 An IoT-like approach would be ideal on this scenario, namely, talk to your
 machines and tell them to do stuff for you while you're walking streets,
-or having a dinner with your *friend, or when you're just too sleepy/lazy
+or having a dinner with your friend, or when you're just too sleepy/lazy
 to get up from your couch/bed.
 
 For the moment, **kaoru** is capable of:
@@ -50,7 +51,7 @@ make a new bot for you, as specified in `Telegram Bots Documentation <https://co
 
 On the other hand, you gotta install **kaoru**, of course.
 
-.. code:: bash
+.. code-block:: bash
 
     # First of all, you need to install
     pip3 install kaoru
@@ -65,9 +66,9 @@ should have given you an **API access token** (a bunch of characters and numbers
 
 Moreover, you can edit your `configuration file <#configuration-file>`_ from this point
 
-.. code:: bash
+.. code-block:: bash
 
-  $ vi /path/to/your/kaoru.conf
+    $ vi /path/to/your/kaoru.conf
 
 **NOTE**: A configuration file is *not mandatory* for **kaoru** to run, she can do
 it using her defaults, however, you will need at least to set the API token
@@ -75,7 +76,7 @@ through the environment variable ``TG_TOKEN``
 
 **Now you are done setting up kaoru, now is time to run it!**
 
-.. code:: bash
+.. code-block:: bash
 
     $ kaoru --config /path/to/you/kaoru.conf
 
@@ -124,6 +125,7 @@ conditions. Hosts running **kaoru** must:
 
 -  Be Linux-based at least (though conceptually speaking, ``*nix`` should be supported)
 -  Have ``sudo``. Since commands like ``shutdown`` need to be run as ``root``.
+-  Have `scrot <http://freecode.com/projects/scrot>`_ installed (if you want ``/screenshot`` command to work)
 -  Run kaoru on behalf on an user whose ``sudo`` privileges cover at least the execution of ``shutdown`` with no password requirement.
 
 Configuration file
@@ -135,7 +137,7 @@ a Telegram Bot API token to those related with blablabla. Please refer
 to the `example configuration file <https://github.com/axltxl/kaoru/blob/develop/example.conf>`_
 for more details on how to configure **kaoru**.
 
-.. code:: yaml
+.. code-block:: yaml
 
     ---
     ############################
@@ -150,6 +152,7 @@ for more details on how to configure **kaoru**.
 
     # command to execute when a /screenlock command has been received
     screenlock_cmd: xscreensaver
+
 
 **NOTE**: Configuration files can be read by **kaoru** using the ``--config``
 argument, by default, **kaoru** will look up for a configuration file on
@@ -166,7 +169,7 @@ to quickly see her working, **it is inherently and by all means INSECURE!!!!**
 Once you feel happy with your configuration, it is strongly advised
 that you **enforce strict mode** on your configuration file, like so:
 
-.. code:: yaml
+.. code-block:: yaml
 
     ---
     # .. other options are behind
@@ -181,6 +184,7 @@ that you **enforce strict mode** on your configuration file, like so:
         - <your Telegram user name>
         - betty # your friend betty can also talk to kaoru
 
+
 Once you're done, you can proceed to re-execute **kaoru**.
 With ``strict`` directive set to ``true``, **kaoru** will only
 listen and react to commands and messages coming from users set in ``masters``.
@@ -188,17 +192,17 @@ listen and react to commands and messages coming from users set in ``masters``.
 
 Options
 =======
-.. code:: bash
+.. code-block:: bash
 
     kaoru [options]
 
 
 -  ``--version`` show version number and exit
--  ``--config FILE`` configuration file to use
+-  ``-c FILE | --config FILE`` configuration file to use
 -  ``-h | --help`` show a help message and exit
--  ``--dry-run`` don't actually do anything
--  ``--log-level NUM`` set logging output level
--  ``--log-file LOG_FILE`` set log file
+-  ``-d | --dry-run`` don't actually do anything
+-  ``L NUM | --log-level NUM`` set logging output level
+-  ``-l FILE | --log-file LOG_FILE`` set log file
 
 
 Contributing

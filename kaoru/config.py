@@ -50,7 +50,6 @@ def init(*, config_file):
     _schema = Schema({
         Optional('token'): str,
         Optional('strict'): bool,
-        Optional('cli'): bool,
         Optional('masters'): lambda x: isinstance(x,list) and all([isinstance(y,str) for y in x]),
         Optional('dry_run'): bool,
         Optional('show_hostname'): bool,
