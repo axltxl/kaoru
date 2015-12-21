@@ -87,6 +87,6 @@ def query(sql):
         if len(rows):
             log.msg_debug("sqlite: got {} row(s)".format(len(rows)))
         else:
-            log.msg_debug("sqlite3: got nothing from this query")
+            log.msg_debug("sqlite: got nothing from this query")
     return rows
 
