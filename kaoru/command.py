@@ -244,7 +244,7 @@ def register_commands(updater, dispatcher):
     _commands = [
         ('hello', 'See if I "live"', _hello),
         ('screenlock', 'Lock the screen(s) on your host(s)', _screenlock),
-        ('screenshot', 'Get a screenshot from your host(s)', _screenshot),
+        ('screenshot', 'Get a screen shot from your host(s)', _screenshot),
         ('reboot', 'Reboot your host(s)', _reboot),
         ('poweroff', 'Shut down your host(s)', _poweroff),
         ('cancel', 'Cancel any pending operation(s)', _cancel),

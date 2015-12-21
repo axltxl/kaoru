@@ -27,6 +27,7 @@ For the moment, **kaoru** is capable of:
 -  Rebooting your host(s)
 -  Shutting down your host(s)
 -  Locking the screen on your host(s)
+-  Send screen shots from your host(s)
 
 Things I feel tempted to implement:
 
@@ -88,6 +89,7 @@ through the environment variable ``TG_TOKEN``
     ---
     hello - See if I "live"
     screenlock - Lock the screen(s) on your host(s)
+    screenshot - Get a screen shot from your host(s)
     reboot - Reboot your host(s)
     poweroff - Shut down your host(s)
     cancel - Cancel any pending operation(s)
@@ -106,6 +108,7 @@ supported by **kaoru**, more are planned to come:
 
 -  ``/hello`` A simple ping just to see if your bot is *alive*
 -  ``/screenlock`` Lock screens on your host(s)
+-  ``/screenshot`` Get a screen shot from your host(s)
 -  ``/poweroff`` Tell your host(s) to shut down
 -  ``/reboot`` Tell your host(s) to reboot
 -  ``/cancel`` Cancel any pending operations
