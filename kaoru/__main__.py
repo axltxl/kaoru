@@ -37,7 +37,7 @@ def main(argv=None):
         options = init(argv)
 
         # start the thing!
-        start(dry_run=options['--dry-run'])
+        start()
 
     except DocoptExit as dexcept:
         # Deal with wrong arguments

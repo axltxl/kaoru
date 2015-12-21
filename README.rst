@@ -194,11 +194,11 @@ Options
 
 
 -  ``--version`` show version number and exit
--  ``--config FILE`` configuration file to use
+-  ``-c FILE | --config FILE`` configuration file to use
 -  ``-h | --help`` show a help message and exit
--  ``--dry-run`` don't actually do anything
--  ``--log-level NUM`` set logging output level
--  ``--log-file LOG_FILE`` set log file
+-  ``-d | --dry-run`` don't actually do anything
+-  ``L NUM | --log-level NUM`` set logging output level
+-  ``-l FILE | --log-file LOG_FILE`` set log file
 
 
 Contributing

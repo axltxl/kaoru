@@ -109,12 +109,13 @@ def _base_dirs_init():
         os.makedirs(_config_dir_default)
 
 def init(argv):
-    """Usage: kaoru [--log-level LVL] [--log-file FILE] [--dry-run] [--config FILE]
+    """Usage: kaoru [options]
 
-    --log-level LVL  Verbosity level on output [default: 1]
-    --log-file FILE  Log file
-    --config FILE    Configuration file to use
-    --dry-run        Dry run mode (don't do anything)
+    -L LVL --log-level LVL  Verbosity level on output [default: 1]
+    -i --interactive        CLI mode
+    -l --log-file FILE      Log file
+    -c FILE --config FILE   Configuration file to use
+    -d --dry-run            Dry run mode (don't do anything)
     """
 
     args = docopt(init.__doc__, argv=argv[1:], version=version)
@@ -141,6 +142,12 @@ def init(argv):
         log.msg_warn("Strict mode has been enforced")
         security.check_masters(config.get('masters'))
 
+    # whether to set dry run mode
+    config.set('dry_run', args['--dry-run'])
+
+    # activate cli mode
+    config.set('cli', args['--interactive'])
+
     # give back the list of arguments captured by docopt
     return args
 
@@ -166,11 +173,8 @@ def _handle_error(bot, update, error):
 ##################
 # The main "thing"
 ##################
-def start(dry_run=False):
-
-    # whether to set dry run mode
-    config.set('dry_run', dry_run)
-
+def start():
+    """Start the application itself """
 
     # ... and as well a few other things that are necessary
     global _tg_updater, _tg_dispatcher
