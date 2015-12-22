@@ -2,6 +2,7 @@ Release 0.3.0:
 
 * General optimizations
 * /screenshot: send chat action UPLOAD_PHOTO beforce uploading picture
+* /screenshot: the message should go as a caption
 
 Release 0.2.1:
 

@@ -179,7 +179,8 @@ def _screenshot(bot, update):
                 # send the actual pic
                 bot.sendPhoto(
                     photo=photo,
-                    chat_id=update.message.chat_id
+                    chat_id=update.message.chat_id,
+                    caption=utils.select_rand_str(replies)
                 )
                 log.msg_debug("{}: picture sent".format(screenshot_file))
     else:
