@@ -241,15 +241,15 @@ def start():
     command.register_commands(_tg_updater, _tg_dispatcher)
 
     #############################################################
-    # set last update id:
+    # set initial last update id:
     # By setting it, the updater's bot will start getting updates
     # with an offset of last_update_id instead of default 0,
-    # consequently, only unconfirmed updates greater than last_update_id
-    # will be taken into account:
+    # consequently, only unconfirmed updates greater or equal
+    # than last_update_id will be taken into account:
     # see: https://github.com/python-telegram-bot/python-telegram-bot/blob/master/telegram/updater.py#L171
     # see: http://python-telegram-bot.readthedocs.org/en/latest/telegram.bot.html#telegram.bot.Bot.getUpdates
     #############################################################
-    last_update_id = db.get_last_update_id()
+    last_update_id = db.get_last_update_id() + 1
     if last_update_id is not None:
         log.msg_debug("last_update_id = {}".format(last_update_id))
         _tg_updater.bot.last_update_id = last_update_id

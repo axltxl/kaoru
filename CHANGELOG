@@ -6,6 +6,7 @@ Release 0.3.0:
 * /screenshot: reply message is randomly selected from a list
 * [FIXED]: configuration was not being initiatised consistently
 * utils.echo_msg: send chat action TYPING before sending message
+* [FIXED]: initial last_update_id must be higher than the one in database
 * /hello: greeting messages are random using many languages
 
 Release 0.2.1:
