@@ -13,10 +13,15 @@ Utilities
 
 import socket
 import random
+import time
 
 from telegram import Update, ChatAction
 from . import log
 from . import config
+
+def random_seed():
+    """Seed the randomizer"""
+    random.seed(int(time.time()))
 
 def echo_msg(bot, update, msg):
     if isinstance(update, Update):

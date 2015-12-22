@@ -170,6 +170,9 @@ def init(argv):
     signal.signal(signal.SIGTERM, _handle_signal)
 
 
+    # initialise randomizer
+    utils.random_seed()
+
     # Intialialise base directories, first of all
     _base_dirs_init()
 
