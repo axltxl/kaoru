@@ -13,6 +13,7 @@ Command handlers
 
 from . import log
 from .commands import (
+    about,
     hello,
     screenlock,
     screenshot,
@@ -25,6 +26,7 @@ from .commands import (
 
 # list of available commands
 _commands = [
+    (about.cmd_str, about.desc, about.cmd_handler),
     (hello.cmd_str, hello.desc, hello.cmd_handler),
     (screenlock.cmd_str, screenlock.desc, screenlock.cmd_handler),
     (screenshot.cmd_str, screenshot.desc, screenshot.cmd_handler),

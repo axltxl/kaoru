@@ -27,6 +27,7 @@ from . import command
 from . import config
 from . import security
 from . import cli
+from . import utils
 from . import db
 
 # telegram objects to be used
