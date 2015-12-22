@@ -8,6 +8,7 @@ Release 0.3.0:
 * utils.echo_msg: send chat action TYPING before sending message
 * [FIXED]: initial last_update_id must be higher than the one in database
 * /hello: greeting messages are random using many languages
+* [FIXED]: updates are written to database only when actual Telegram updates are received
 
 Release 0.2.1:
 

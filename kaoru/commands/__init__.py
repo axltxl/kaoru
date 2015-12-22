@@ -44,15 +44,15 @@ def bot_command(command_func):
             except security.SecurityException as sec_except:
                 log.msg_err(sec_except)
                 return
+
+            ###################################################
+            # Grab the update and append it to database to keep
+            # constant track of what this bot is getting
+            ###################################################
+            db.insert_update(update)
         else:
             # I have received a string command
             log.msg_debug("Received command: '{}'".format(update))
-
-        ###################################################
-        # Grab the update and append it to database to keep
-        # constant track of what this bot is getting
-        ###################################################
-        db.insert_update(update)
 
         # Finally, execute the intended command
         command_func(bot, update)
