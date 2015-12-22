@@ -12,6 +12,8 @@ Utilities
 """
 
 import socket
+import random
+
 from telegram import Update
 from . import log
 from . import config
