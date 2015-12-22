@@ -43,6 +43,6 @@ The following is the list of available commands I have:
     utils.echo_msg(bot, update, help_str, parse_mode=ParseMode.MARKDOWN)
 
 cmd_list = None  #
-desc = 'Information for nerds'  # This command's description
+desc = 'get list of available commands'  # This command's description
 cmd_handler = _cmd_handler  # command handler
 cmd_str = 'help'  # command /string
