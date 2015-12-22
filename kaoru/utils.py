@@ -47,3 +47,12 @@ def echo_msg(bot, update, msg):
         )
     else:
         log.msg("{} > {}".format(bot.username, msg))
+
+def select_rand_str(candidates):
+    """select a random string from a list
+
+    :candidates: list of string candidates
+    :returns: str
+
+    """
+    return candidates[random.randrange(0, len(candidates))]
