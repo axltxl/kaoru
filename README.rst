@@ -4,7 +4,7 @@ kaoru
 .. image:: https://badge.fury.io/py/kaoru.svg
     :target: http://badge.fury.io/py/kaoru
 
-[WIP] A Telegram Bot as your personal IoT assistant
+A Telegram Bot as your personal IoT assistant
 ---------------------------------------------------
 
 **kaoru** can be defined as a Telegram Bot whose roles are much alike
