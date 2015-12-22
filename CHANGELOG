@@ -1,0 +1,13 @@
+Release 0.2.0:
+
+* imagemagick support for /screenshot command
+* FIXED: proc_select didn't break search at first succesful ocurrence
+* sqlite3 database interface initial implementation
+* Every update gets an entry in the database, to make sure kaoru
+  gets updates with update_id greater than the last one on record
+* Telegram.Updater.logger is re-assigned with the one used by log module
+
+Release 0.1.0:
+
+* First release
+

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-snaplayer.log
+kaoru.log
 ~~~~~~~~~~~~~
 
 Handles local and system-wide logging into files.
@@ -18,11 +18,12 @@ import logging
 import logging.handlers
 from . import __name__ as pkg_name
 from clint.textui.colored import white, red, cyan, yellow, green
+from clint.textui import puts
 
 #
 # Constants
 #
-LOG_LVL_DEFAULT = 1
+LOG_LVL_DEFAULT = 0
 LOG_FILE_DEFAULT = "{pkg_name}.log".format(pkg_name=pkg_name)
 
 # Globals
@@ -80,9 +81,14 @@ def init(*, threshold_lvl=1, quiet_stdout=False, log_file):
         _stdout = True
 
 
+def get_logger():
+    """get logger interface for external use"""
+    return _logger
+
+
 def to_stdout(msg, *, colorf=green, bold=False):
     if _stdout:
-        print(colorf(msg, bold=bold))
+        puts(colorf(msg, bold=bold))
 
 
 def msg(message, *, bold=False):
