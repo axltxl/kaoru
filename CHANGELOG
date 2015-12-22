@@ -11,6 +11,7 @@ Release 0.3.0:
 * /about: new command that shows details about kaoru
 * [FIXED]: updates are written to database only when actual Telegram updates are received
 * /help: command initial implementation
+* /start: command initial implementation
 
 Release 0.2.1:
 

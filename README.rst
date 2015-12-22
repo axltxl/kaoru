@@ -89,6 +89,7 @@ through the environment variable ``TG_TOKEN``
     (!) have mentioned me, you can paste the following:
     ---
     about - Information for nerds
+    start - Start me up
     hello - See if I "live"
     help - Get list of available commands
     screenlock - See if I "live"
