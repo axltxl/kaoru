@@ -250,6 +250,10 @@ def start():
         log.msg_debug("last_update_id = {}".format(last_update_id))
         _tg_updater.bot.last_update_id = last_update_id
 
+    # reset logger interface so we can track threads
+    # create by our telegram client
+    _tg_updater.logger = log.get_logger()
+
     ####################################
     # Start listening for actual updates
     ####################################

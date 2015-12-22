@@ -81,6 +81,11 @@ def init(*, threshold_lvl=1, quiet_stdout=False, log_file):
         _stdout = True
 
 
+def get_logger():
+    """get logger interface for external use"""
+    return _logger
+
+
 def to_stdout(msg, *, colorf=green, bold=False):
     if _stdout:
         puts(colorf(msg, bold=bold))
