@@ -5,6 +5,7 @@ Release 0.3.0:
 * /screenshot: the message should go as a caption
 * /screenshot: reply message is randomly selected from a list
 * [FIXED]: configuration was not being initiatised consistently
+* utils.echo_msg: send chat action TYPING before sending message
 
 Release 0.2.1:
 

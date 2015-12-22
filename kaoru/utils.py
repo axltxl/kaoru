@@ -14,7 +14,7 @@ Utilities
 import socket
 import random
 
-from telegram import Update
+from telegram import Update, ChatAction
 from . import log
 from . import config
 
@@ -23,6 +23,7 @@ def echo_msg(bot, update, msg):
         # some basic info about the user
         userid = update.message.from_user.id
         username = update.message.from_user.username
+        chat_id = update.message.chat_id
 
         # log the thing
         log.msg("echo message [{}@{}]: {}".format(username, userid, msg))
@@ -43,8 +44,9 @@ def echo_msg(bot, update, msg):
             msg = "{} {}".format(tag, msg)
 
         # send the actual message
+        bot.sendChatAction(chat_id=chat_id, action=ChatAction.TYPING)
         bot.sendMessage(
-            chat_id=update.message.chat_id,
+            chat_id=chat_id,
             text=msg
         )
     else:
