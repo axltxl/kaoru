@@ -1,4 +1,8 @@
-Release 0.2.0:
+Release 0.3.0:
+
+* General optimizations
+
+Release 0.2.1:
 
 * imagemagick support for /screenshot command
 * FIXED: proc_select didn't break search at first succesful ocurrence
