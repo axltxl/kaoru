@@ -28,6 +28,7 @@ from .commands import (
 _commands = [
     (about.cmd_str, about.desc, about.cmd_handler),
     (hello.cmd_str, hello.desc, hello.cmd_handler),
+    (help.cmd_str, help.desc, help.cmd_handler),
     (screenlock.cmd_str, screenlock.desc, screenlock.cmd_handler),
     (screenshot.cmd_str, screenshot.desc, screenshot.cmd_handler),
     (dryrun.cmd_str, dryrun.desc, dryrun.cmd_handler),
@@ -35,6 +36,9 @@ _commands = [
     (reboot.cmd_str, reboot.desc, reboot.cmd_handler),
     (poweroff.cmd_str, poweroff.desc, poweroff.cmd_handler),
 ]
+
+# set cmd list to be used by /help command
+help.cmd_list = _commands
 
 def _print_cmd_desc(commands):
     """Print command descriptions"""
