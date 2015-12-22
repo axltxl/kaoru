@@ -68,6 +68,7 @@ def proc_select(exec_list, *, user_exec=None, command):
             r = envoy.run("which {}".format(prog))
             if r.status_code == 0:
                 selected_exec = r.std_out[:-1]
+                break
 
     log.msg_debug("[{}] executable for this command is: {}".format(command, selected_exec))
     return selected_exec

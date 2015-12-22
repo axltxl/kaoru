@@ -125,7 +125,7 @@ conditions. Hosts running **kaoru** must:
 
 -  Be Linux-based at least (though conceptually speaking, ``*nix`` should be supported)
 -  Have ``sudo``. Since commands like ``shutdown`` need to be run as ``root``.
--  Have `scrot <http://freecode.com/projects/scrot>`_ installed (if you want ``/screenshot`` command to work)
+-  Have either `scrot <http://freecode.com/projects/scrot>`_ or `imagemagick <http://imagemagick.org>`_ installed (if you want ``/screenshot`` command to work)
 -  Run kaoru on behalf on an user whose ``sudo`` privileges cover at least the execution of ``shutdown`` with no password requirement.
 
 Configuration file
@@ -198,6 +198,7 @@ Options
 
 
 -  ``--version`` show version number and exit
+-  ``-i | --interactive`` enter CLI mode
 -  ``-c FILE | --config FILE`` configuration file to use
 -  ``-h | --help`` show a help message and exit
 -  ``-d | --dry-run`` don't actually do anything
