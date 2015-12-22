@@ -40,7 +40,7 @@ def proc_exec(cmd):
 
     return envoy.run(cmd)
 
-def proc_select(exec_list, *, user_exec=None, command):
+def proc_select(exec_list):
     """Select the first executable found from a list
 
     Select the preferred executable for a command, if user_exec is None,
@@ -48,27 +48,13 @@ def proc_select(exec_list, *, user_exec=None, command):
     If none is found, it will return None
 
     :param exec_list: list of executable nominees
-    :param user_exec: user selection for the executable used for a command
-    :param command: command associated with selected executable
-
     """
-
-    # selected executable
-    selected_exec = None
-
-    # user_exec is first class citizen
-    if user_exec is not None:
-        selected_exec = user_exec
 
     # if the user didn't select any particular
     # executable for a command, it'll be selected from
     # exec_list
-    if selected_exec is None:
-        for prog in exec_list:
-            r = envoy.run("which {}".format(prog))
-            if r.status_code == 0:
-                selected_exec = r.std_out[:-1]
-                break
-
-    log.msg_debug("[{}] executable for this command is: {}".format(command, selected_exec))
-    return selected_exec
+    for prog in exec_list:
+        r = envoy.run("which {}".format(prog))
+        if r.status_code == 0:
+            return r.std_out[:-1]
+    return None

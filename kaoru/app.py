@@ -27,6 +27,7 @@ from . import command
 from . import config
 from . import security
 from . import cli
+from . import utils
 from . import db
 
 # telegram objects to be used
@@ -47,9 +48,13 @@ _config_file_default = None
 _db_dir = None
 _db_file = None
 
-def _config_init(config_file):
-    """Initialise the configuration file"""
+def _config_init(args):
+    """Initialise the configuration file
 
+        :param args: command line arguments
+    """
+
+    config_file = args['--config']
     if config_file is None:
         config_file = "{}/{}".format(_config_dir_default, _config_file_default)
     log.msg("Reading configuration file at: {}".format(config_file))
@@ -69,6 +74,12 @@ def _config_init(config_file):
         config.set('token', token)
     else:
         log.msg_debug('got Telegram Bot API token from configuration file')
+
+    # whether to set dry run mode
+    config.set('dry_run', args['--dry-run'])
+
+    # activate cli mode
+    config.set('cli', args['--interactive'])
 
     # print final configuration
     log.msg_debug("Configuration settings are the following:")
@@ -160,6 +171,9 @@ def init(argv):
     signal.signal(signal.SIGTERM, _handle_signal)
 
 
+    # initialise randomizer
+    utils.random_seed()
+
     # Intialialise base directories, first of all
     _base_dirs_init()
 
@@ -170,7 +184,7 @@ def init(argv):
     _splash()
 
     # initialise configuration file
-    _config_init(args['--config'])
+    _config_init(args)
 
     # initialise database
     _db_init()
@@ -179,12 +193,6 @@ def init(argv):
     if config.get('strict'):
         log.msg_warn("Strict mode has been enforced")
         security.check_masters(config.get('masters'))
-
-    # whether to set dry run mode
-    config.set('dry_run', args['--dry-run'])
-
-    # activate cli mode
-    config.set('cli', args['--interactive'])
 
     # give back the list of arguments captured by docopt
     return args
@@ -237,15 +245,15 @@ def start():
     command.register_commands(_tg_updater, _tg_dispatcher)
 
     #############################################################
-    # set last update id:
+    # set initial last update id:
     # By setting it, the updater's bot will start getting updates
     # with an offset of last_update_id instead of default 0,
-    # consequently, only unconfirmed updates greater than last_update_id
-    # will be taken into account:
+    # consequently, only unconfirmed updates greater or equal
+    # than last_update_id will be taken into account:
     # see: https://github.com/python-telegram-bot/python-telegram-bot/blob/master/telegram/updater.py#L171
     # see: http://python-telegram-bot.readthedocs.org/en/latest/telegram.bot.html#telegram.bot.Bot.getUpdates
     #############################################################
-    last_update_id = db.get_last_update_id()
+    last_update_id = db.get_last_update_id() + 1
     if last_update_id is not None:
         log.msg_debug("last_update_id = {}".format(last_update_id))
         _tg_updater.bot.last_update_id = last_update_id

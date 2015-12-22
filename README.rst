@@ -4,7 +4,7 @@ kaoru
 .. image:: https://badge.fury.io/py/kaoru.svg
     :target: http://badge.fury.io/py/kaoru
 
-[WIP] A Telegram Bot as your personal IoT assistant
+A Telegram Bot as your personal IoT assistant
 ---------------------------------------------------
 
 **kaoru** can be defined as a Telegram Bot whose roles are much alike
@@ -88,13 +88,16 @@ through the environment variable ``TG_TOKEN``
     (!) Ask him to /setcommands and after you
     (!) have mentioned me, you can paste the following:
     ---
+    about - Information for nerds
+    start - Start me up
     hello - See if I "live"
-    screenlock - Lock the screen(s) on your host(s)
+    help - Get list of available commands
+    screenlock - See if I "live"
     screenshot - Get a screen shot from your host(s)
+    dryrun - Toggle "dry run" mode
+    cancel - Cancel any pending operation(s)
     reboot - Reboot your host(s)
     poweroff - Shut down your host(s)
-    cancel - Cancel any pending operation(s)
-    dryrun - Toggle "dry run" mode
     ---
     --- Waiting for updates ...
 
@@ -108,12 +111,14 @@ supported by **kaoru**, more are planned to come:
 
 
 -  ``/hello`` A simple ping just to see if your bot is *alive*
+-  ``/help`` How to use **kaoru**
 -  ``/screenlock`` Lock screens on your host(s)
 -  ``/screenshot`` Get a screen shot from your host(s)
 -  ``/poweroff`` Tell your host(s) to shut down
 -  ``/reboot`` Tell your host(s) to reboot
 -  ``/cancel`` Cancel any pending operations
 -  ``/dryrun`` don't do a thing, but pretend
+-  ``/about`` information, mostly for nerds
 
 
 Are there any sort of requirements for kaoru in order to work properly?

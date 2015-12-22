@@ -1,4 +1,19 @@
-Release 0.2.0:
+Release 0.3.0:
+
+* General optimizations and refactoring of commands
+* /screenshot: send chat action UPLOAD_PHOTO beforce uploading picture
+* /screenshot: the message should go as a caption
+* /screenshot: reply message is randomly selected from a list
+* [FIXED]: configuration was not being initiatised consistently
+* utils.echo_msg: send chat action TYPING before sending message
+* [FIXED]: initial last_update_id must be higher than the one in database
+* /hello: greeting messages are random using many languages
+* /about: new command that shows details about kaoru
+* [FIXED]: updates are written to database only when actual Telegram updates are received
+* /help: command initial implementation
+* /start: command initial implementation
+
+Release 0.2.1:
 
 * imagemagick support for /screenshot command
 * FIXED: proc_select didn't break search at first succesful ocurrence
