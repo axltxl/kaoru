@@ -23,7 +23,7 @@ def random_seed():
     """Seed the randomizer"""
     random.seed(int(time.time()))
 
-def echo_msg(bot, update, msg):
+def echo_msg(bot, update, msg, **kwargs):
     if isinstance(update, Update):
         # some basic info about the user
         userid = update.message.from_user.id
@@ -36,7 +36,8 @@ def echo_msg(bot, update, msg):
         # reformat message so it includes this machine's host name
         show_hostname = config.get('show_hostname')
         dry_run = config.get('dry_run')
-        if show_hostname or dry_run:
+        parse_mode = kwargs.get('parse_mode')
+        if (show_hostname or dry_run) and parse_mode is None:
             tag = ""
             if show_hostname:
                 tag = socket.gethostname()
@@ -52,7 +53,8 @@ def echo_msg(bot, update, msg):
         bot.sendChatAction(chat_id=chat_id, action=ChatAction.TYPING)
         bot.sendMessage(
             chat_id=chat_id,
-            text=msg
+            text=msg,
+            **kwargs
         )
     else:
         log.msg("{} > {}".format(bot.username, msg))
