@@ -120,7 +120,7 @@ def _screenshot(bot, update):
     """
 
     # check for executables set for commands
-    screenshot_exec = proc_select(['import', 'scrot'], command='screenshot')
+    screenshot_exec = proc_select(['import', 'scrot'])
 
     # file name is set without extension at first, depending on the
     # program being selected for the job, an extension will be chosen
