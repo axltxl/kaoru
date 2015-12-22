@@ -47,9 +47,13 @@ _config_file_default = None
 _db_dir = None
 _db_file = None
 
-def _config_init(config_file):
-    """Initialise the configuration file"""
+def _config_init(args):
+    """Initialise the configuration file
 
+        :param args: command line arguments
+    """
+
+    config_file = args['--config']
     if config_file is None:
         config_file = "{}/{}".format(_config_dir_default, _config_file_default)
     log.msg("Reading configuration file at: {}".format(config_file))
@@ -69,6 +73,12 @@ def _config_init(config_file):
         config.set('token', token)
     else:
         log.msg_debug('got Telegram Bot API token from configuration file')
+
+    # whether to set dry run mode
+    config.set('dry_run', args['--dry-run'])
+
+    # activate cli mode
+    config.set('cli', args['--interactive'])
 
     # print final configuration
     log.msg_debug("Configuration settings are the following:")
@@ -170,7 +180,7 @@ def init(argv):
     _splash()
 
     # initialise configuration file
-    _config_init(args['--config'])
+    _config_init(args)
 
     # initialise database
     _db_init()
@@ -179,12 +189,6 @@ def init(argv):
     if config.get('strict'):
         log.msg_warn("Strict mode has been enforced")
         security.check_masters(config.get('masters'))
-
-    # whether to set dry run mode
-    config.set('dry_run', args['--dry-run'])
-
-    # activate cli mode
-    config.set('cli', args['--interactive'])
 
     # give back the list of arguments captured by docopt
     return args
