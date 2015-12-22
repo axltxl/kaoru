@@ -1,6 +1,7 @@
 Release 0.3.0:
 
 * General optimizations
+* /screenshot: send chat action UPLOAD_PHOTO beforce uploading picture
 
 Release 0.2.1:
 

@@ -160,6 +160,10 @@ def _screenshot(bot, update):
 
     # execute the thing
     if screenshot_exec is not None:
+        bot.sendChatAction(
+            chat_id=update.message.chat_id,
+            action=ChatAction.UPLOAD_PHOTO
+        )
         proc_exec(screenshot_exec)
 
     # check is the file is available
