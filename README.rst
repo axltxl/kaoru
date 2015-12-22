@@ -90,6 +90,7 @@ through the environment variable ``TG_TOKEN``
     ---
     about - Information for nerds
     hello - See if I "live"
+    help - Get list of available commands
     screenlock - See if I "live"
     screenshot - Get a screen shot from your host(s)
     dryrun - Toggle "dry run" mode
@@ -109,6 +110,7 @@ supported by **kaoru**, more are planned to come:
 
 
 -  ``/hello`` A simple ping just to see if your bot is *alive*
+-  ``/help`` How to use **kaoru**
 -  ``/screenlock`` Lock screens on your host(s)
 -  ``/screenshot`` Get a screen shot from your host(s)
 -  ``/poweroff`` Tell your host(s) to shut down
