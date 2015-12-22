@@ -15,6 +15,7 @@ from . import log
 from .commands import (
     about,
     hello,
+    help,
     screenlock,
     screenshot,
     dryrun,
