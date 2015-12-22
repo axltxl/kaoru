@@ -102,7 +102,6 @@ def _screenlock(bot, update):
     it basically runs a screen locker
     """
 
-    utils.echo_msg(bot, update, "Your screen(s) are now LOCKED")
     # check for executables set for commands
     screenlock_exec = config.get('screenlock_cmd')
     if screenlock_exec is None:
