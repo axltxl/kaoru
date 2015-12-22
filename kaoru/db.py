@@ -37,7 +37,7 @@ def _create_schema(db):
         cursor.execute(_db_schema)
 
 def init(*, db):
-    """Intialise database interface
+    """Initialise database interface
 
     :param db: database file to use
     """

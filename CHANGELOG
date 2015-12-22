@@ -1,9 +1,10 @@
 Release 0.3.0:
 
-* General optimizations
+* General optimizations and refactoring of commands
 * /screenshot: send chat action UPLOAD_PHOTO beforce uploading picture
 * /screenshot: the message should go as a caption
 * /screenshot: reply message is randomly selected from a list
+* [FIXED]: configuration was not being initiatised consistently
 
 Release 0.2.1:
 
