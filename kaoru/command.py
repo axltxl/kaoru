@@ -168,8 +168,11 @@ def _screenshot(bot, update):
 
     # check is the file is available
     if os.path.isfile(screenshot_file):
-        utils.echo_msg(bot, update, "Here you go, Sir.")
         if isinstance(update, Update):
+            replies = [
+                'Here you go, Sir.',
+                'Le voilà, Monsieur.'
+            ]
             with open(screenshot_file, 'rb') as photo:
                 log.msg_debug("{}: {} byte(s)".format(
                     screenshot_file,
