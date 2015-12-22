@@ -104,13 +104,21 @@ def _screenlock(bot, update):
 
     utils.echo_msg(bot, update, "Your screen(s) are now LOCKED")
     # check for executables set for commands
-    screenlock_exec = proc_select([
-        'xlock', 'xscreensaver', 'i3lock'
-        ],
-        command='screenlock',
-        user_exec=config.get('screenlock_cmd')
-    )
+    screenlock_exec = config.get('screenlock_cmd')
+    if screenlock_exec is None:
+        screenlock_exec = proc_select([
+            'xlock', 'xscreensaver', 'i3lock'
+            ],
+        )
+    # only execute the thing if existent
+    if screenlock_exec is None:
+        err_msg = "A suitable 'screenlock_cmd' has bot been found."
+        utils.echo_msg(err_msg)
+        log.msg_err(err_msg)
+        return
+
     proc_exec_async(screenlock_exec)
+    utils.echo_msg(bot, update, "Your screen(s) are now LOCKED")
 
 # /screenshot command:
 @bot_command
