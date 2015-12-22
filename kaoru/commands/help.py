@@ -29,13 +29,12 @@ def _cmd_handler(bot, update):
     # and format them to Markdown
     commands = ""
     for command, desc, handler in cmd_list:
-        commands += "* **{}** - {}\n".format(command, desc)
+        commands += "*/{}* - {}\n".format(command, desc)
 
     # ... and construct the final markdown string for help
     help_str = \
     """
-The following is the list of available commands I have:
-=======================================================
+*The following is the list of available commands I have:*
 {}
     """.format(commands).strip()
 
