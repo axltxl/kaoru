@@ -198,6 +198,7 @@ Options
 
 
 -  ``--version`` show version number and exit
+-  ``-i | --interactive`` enter CLI mode
 -  ``-c FILE | --config FILE`` configuration file to use
 -  ``-h | --help`` show a help message and exit
 -  ``-d | --dry-run`` don't actually do anything
