@@ -1,3 +1,7 @@
+Release 0.3.1:
+
+* /about: copyright notice and license removed as they were too verbose
+
 Release 0.3.0:
 
 * General optimizations and refactoring of commands
