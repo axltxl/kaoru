@@ -363,4 +363,8 @@ def _splash():
         pkg=pkg_name, version=version, url=pkg_url)
     log.to_stdout(splash_title, colorf=log.yellow, bold=True)
     log.to_stdout('-' * len(splash_title), colorf=log.yellow, bold=True)
+    log.to_stdout(
+        "Please, report issues to {}/issues"
+        .format(pkg_url), colorf=log.yellow, bold=True
+    )
 
