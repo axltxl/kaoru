@@ -17,6 +17,7 @@ import os
 import signal
 import time
 from telegram import Updater
+from telegram import Bot
 from docopt import docopt
 
 from . import __version__ as version
@@ -216,6 +217,61 @@ def handle_except(e):
 def _handle_error(bot, update, error):
     raise error
 
+def _get_last_update_id():
+    """Get the latest update id"""
+
+    # first of all, get latest update id on record
+    # if there's none, just set it to zero
+    last_update_id = db.get_last_update_id()
+    if last_update_id is None:
+        return 0
+
+    # initial update offset
+    last_update_id += 1
+
+    # Discarding updates on startup:
+    # ------------------------------
+    # Namely, to take all updates since last_update_id
+    # and "discard" them, which means that, once updates
+    # are captured, another call to getUpdates is done with
+    # an offset higher than the latest update id, resulting
+    # in all previous updates to be confirmed on backend
+    # This is done to make sure that this bot gets updates
+    # only after it has been initialised and not before.
+    # In this way, if the user sends commands before this bot
+    # starts to run, those updates won't be taken into account
+    if config.get('discard_on_startup'):
+        log.msg_debug(
+            'Proceeding to discard pending updates from update_id = {}'
+            .format(last_update_id)
+        )
+
+        # create a temporary bot for the dirty job
+        bot = Bot(token=config.get('token'))
+
+        log.msg_debug(
+            "telegram.Bot.getUpdates(offset={})" .format(last_update_id)
+        )
+
+        # get updates equal or higher than last_update
+        updates = bot.getUpdates(offset=last_update_id)
+        if len(updates):
+            log.msg_debug(
+                '{} Pending messages captured and discarded ...'
+                .format(len(updates))
+            )
+
+            # get the latest update if
+            last_update_id = updates[-1].update_id + 1
+
+            # and force a getUpdates call to Bot API
+            # to declare all previous updates as confirmed
+            bot.getUpdates(offset=last_update_id)
+
+    # and return the actual latest update id
+    return last_update_id
+
+
 ##################
 # The main "thing"
 ##################
@@ -253,10 +309,10 @@ def start():
     # see: https://github.com/python-telegram-bot/python-telegram-bot/blob/master/telegram/updater.py#L171
     # see: http://python-telegram-bot.readthedocs.org/en/latest/telegram.bot.html#telegram.bot.Bot.getUpdates
     #############################################################
-    last_update_id = db.get_last_update_id() + 1
-    if last_update_id is not None:
-        log.msg_debug("last_update_id = {}".format(last_update_id))
-        _tg_updater.bot.last_update_id = last_update_id
+    _tg_updater.bot.last_update_id = _get_last_update_id()
+    log.msg_debug(
+        "update offset => {}" .format(_tg_updater.bot.last_update_id)
+    )
 
     # reset logger interface so we can track threads
     # create by our telegram client
