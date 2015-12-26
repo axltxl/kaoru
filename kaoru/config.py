@@ -21,6 +21,7 @@ _options = {
     'token': None,
     'queue_reboot': False,
     'queue_poweroff': False,
+    'discard_on_startup': True,
     'reboot_delay': 0,
     'poweroff_delay': 0,
     'screenlock_cmd': None,
@@ -50,6 +51,7 @@ def init(*, config_file):
     _schema = Schema({
         Optional('token'): str,
         Optional('strict'): bool,
+        Optional('discard_on_startup'): bool,
         Optional('masters'): lambda x: isinstance(x,list) and all([isinstance(y,str) for y in x]),
         Optional('dry_run'): bool,
         Optional('show_hostname'): bool,

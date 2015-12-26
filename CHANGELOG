@@ -1,3 +1,8 @@
+Release 0.4.0:
+
+* Config option: discard_on_startup, whether or not to discard any
+  unconfirmed updates on startup, default is true
+
 Release 0.3.2:
 
 * [FIXED]: /screenshot: sanity checks corrected
