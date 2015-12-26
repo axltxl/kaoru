@@ -1,3 +1,8 @@
+Release 0.4.1:
+
+* Issues reporting URL on splash
+* discard_on_startup: better and more explicit log messages
+
 Release 0.4.0:
 
 * Config option: discard_on_startup, whether or not to discard any

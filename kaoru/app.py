@@ -226,9 +226,12 @@ def _get_last_update_id():
     if last_update_id is None:
         return 0
 
+    #######################
     # initial update offset
+    #######################
     last_update_id += 1
 
+    ############################################################
     # Discarding updates on startup:
     # ------------------------------
     # Namely, to take all updates since last_update_id
@@ -236,19 +239,23 @@ def _get_last_update_id():
     # are captured, another call to getUpdates is done with
     # an offset higher than the latest update id, resulting
     # in all previous updates to be confirmed on backend
-    # This is done to make sure that this bot gets updates
-    # only after it has been initialised and not before.
+    # This is done to make sure that this bot gets updates older
+    # than its latest update id on record
     # In this way, if the user sends commands before this bot
     # starts to run, those updates won't be taken into account
+    ############################################################
     if config.get('discard_on_startup'):
-        log.msg_debug(
-            'Proceeding to discard pending updates from update_id = {}'
+        log.msg_warn(
+            'Any previously unconfirmed updates (newer than {}) '.format(last_update_id)
+            + 'will be discarded on startup'
+        )
+        log.msg_warn(
+            'Proceeding to discard pending updates newer than {}'
             .format(last_update_id)
         )
 
         # create a temporary bot for the dirty job
         bot = Bot(token=config.get('token'))
-
         log.msg_debug(
             "telegram.Bot.getUpdates(offset={})" .format(last_update_id)
         )
@@ -256,8 +263,8 @@ def _get_last_update_id():
         # get updates equal or higher than last_update
         updates = bot.getUpdates(offset=last_update_id)
         if len(updates):
-            log.msg_debug(
-                '{} Pending messages captured and discarded ...'
+            log.msg_warn(
+                '{} pending update(s) captured and discarded ...'
                 .format(len(updates))
             )
 
@@ -267,6 +274,11 @@ def _get_last_update_id():
             # and force a getUpdates call to Bot API
             # to declare all previous updates as confirmed
             bot.getUpdates(offset=last_update_id)
+        else:
+            log.msg_warn(
+                "No unconfirmed update(s) found newer than {}"
+                .format(last_update_id)
+            )
 
     # and return the actual latest update id
     return last_update_id
@@ -363,4 +375,8 @@ def _splash():
         pkg=pkg_name, version=version, url=pkg_url)
     log.to_stdout(splash_title, colorf=log.yellow, bold=True)
     log.to_stdout('-' * len(splash_title), colorf=log.yellow, bold=True)
+    log.to_stdout(
+        "Please, report issues to {}/issues"
+        .format(pkg_url), colorf=log.yellow, bold=True
+    )
 
