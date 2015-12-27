@@ -29,10 +29,11 @@ For the moment, **kaoru** is capable of:
 -  Shutting down your host(s)
 -  Locking the screen on your host(s)
 -  Send screen shots from your host(s)
+-  Suspending your host(s) to either RAM or disk
 
 Things I feel tempted to implement:
 
--  Suspend to RAM/disk.
+-  Send alerts/warnings on certain things happening in your host(s)
 -  Tell your host(s) to send you a file in their file system.
 -  Perform a ``tail`` on a file and send messages as new content is appended to that file.
 
@@ -98,6 +99,8 @@ through the environment variable ``TG_TOKEN``
     cancel - Cancel any pending operation(s)
     reboot - Reboot your host(s)
     poweroff - Shut down your host(s)
+    suspend - Suspend your host(s) to RAM
+    hibernate - Suspend your host(s) to disk
     ---
     --- Waiting for updates ...
 
@@ -119,6 +122,8 @@ supported by **kaoru**, more are planned to come:
 -  ``/cancel`` Cancel any pending operations
 -  ``/dryrun`` don't do a thing, but pretend
 -  ``/about`` information, mostly for nerds
+-  ``/suspend`` Suspend your host(s) to RAM
+-  ``/hibernate`` Suspend your host(s) to disk
 
 
 Are there any sort of requirements for kaoru in order to work properly?
@@ -132,6 +137,7 @@ conditions. Hosts running **kaoru** must:
 -  Have ``sudo``. Since commands like ``shutdown`` need to be run as ``root``.
 -  Have either `scrot <http://freecode.com/projects/scrot>`_ or `imagemagick <http://imagemagick.org>`_ installed (if you want ``/screenshot`` command to work)
 -  Run kaoru on behalf on an user whose ``sudo`` privileges cover at least the execution of ``shutdown`` with no password requirement.
+-  Have `pm-utils <http://pm-utils.freedesktop.org/wiki/>`_ installed on your system. This is necessary for ``/suspend`` and ``/hibernate`` to work properly.
 
 Configuration file
 ==================
