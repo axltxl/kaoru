@@ -24,17 +24,19 @@ def _cmd_handler(bot, update):
         username = update.message.from_user.first_name
 
     # the actual message to semt
-    start_msg = \
-    """
-_Hello world!_  ... Oh!, I meant Hello {user} .... {flushed_face}
-I can't promise I won't break, but I'll put my best to assist you!
-Anyways, *let's do this!, shall we?*, start by asking me for /help
-    """.format(user=username, flushed_face=Emoji.FLUSHED_FACE).strip()
+    start_msg = [
+        '_Hello world!_  ... Oh!, I meant: Hello {} ... {}'
+        .format(username, Emoji.FLUSHED_FACE),
+        'I can\'t promise I won\'t break, '
+        'but I\'ll put my best to assist you!',
+        'Anyways, *let\'s do this!, shall we?*, start by asking me for /help'
+    ]
 
     # and send the thing
-    utils.echo_msg(
-        bot, update, start_msg, parse_mode=ParseMode.MARKDOWN
-    )
+    for msg in start_msg:
+        utils.echo_msg(
+            bot, update, msg, parse_mode=ParseMode.MARKDOWN
+        )
 
 cmd_list = None  #
 desc = 'Start me up'  # This command's description
