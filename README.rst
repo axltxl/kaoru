@@ -29,10 +29,11 @@ For the moment, **kaoru** is capable of:
 -  Shutting down your host(s)
 -  Locking the screen on your host(s)
 -  Send screen shots from your host(s)
+-  Suspending your host(s) to either RAM or disk
 
 Things I feel tempted to implement:
 
--  Send alerts/warnings on certain things happenning in your host(s)
+-  Send alerts/warnings on certain things happening in your host(s)
 -  Tell your host(s) to send you a file in their file system.
 -  Perform a ``tail`` on a file and send messages as new content is appended to that file.
 
