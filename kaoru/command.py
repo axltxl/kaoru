@@ -22,6 +22,8 @@ from .commands import (
     dryrun,
     cancel,
     poweroff,
+    suspend,
+    hibernate,
     reboot,
     unknown,
 )
@@ -38,6 +40,8 @@ _commands = [
     (cancel.cmd_str, cancel.desc, cancel.cmd_handler),
     (reboot.cmd_str, reboot.desc, reboot.cmd_handler),
     (poweroff.cmd_str, poweroff.desc, poweroff.cmd_handler),
+    (suspend.cmd_str, suspend.desc, suspend.cmd_handler),
+    (hibernate.cmd_str, hibernate.desc, hibernate.cmd_handler),
 ]
 
 # set cmd list to be used by /help command
