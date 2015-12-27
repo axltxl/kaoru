@@ -1,3 +1,9 @@
+Release 0.5.0:
+
+* /suspend: initial implementation
+* /hibernate: initial implementation
+* /start: fancier reply message
+
 Release 0.4.1:
 
 * Issues reporting URL on splash
